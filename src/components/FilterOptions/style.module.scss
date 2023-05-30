@@ -1,0 +1,62 @@
+@import '../../styles/variables';
+
+.filter {
+	width: calc(100% - 40px);
+	&__list {
+		height: 76px;
+		display: flex;
+		justify-content: space-between;
+		align-items: flex-end;
+		background-color: $fillWhite;
+		border-radius: 16px;
+		padding: 58px 76px;
+		// gap: 3.4%;
+		margin-top: 6px;
+	}
+	&__item {
+		width: 231px;
+		height: 40px;
+	}
+	&__component {
+		width: 100%;
+		height: 100%;
+	}
+	&__blockYears {
+		width: 286px;
+		height: 100%;
+		display: flex;
+		align-items: flex-end;
+		gap: 20px;
+	}
+	&__years {
+		width: 133px;
+		height: 40px;
+	}
+	&__select {
+		display: flex;
+	}
+	&__button {
+		display: flex;
+		align-items: center;
+		height: fit-content;
+		background-color: $fillBlue;
+		color: $textWhite;
+		border: none;
+		border-radius: 8px;
+		padding: 12px 24px;
+		cursor: pointer;
+		@extend %textSize_Button2;
+		transition: .2s;
+		&:hover {
+			background-color: $fillBlueDark;
+		}
+		&:disabled {
+			background-color: $fillDisabled;
+		}
+	}
+}
+
+.disabledButton {
+	background-color: $fillDisabled;
+	cursor: not-allowed;
+}

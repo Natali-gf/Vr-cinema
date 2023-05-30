@@ -1,0 +1,26 @@
+@import '../../styles/variables';
+
+.sideMenu {
+	// width: inherit;
+	// height: inherit;
+	display: flex;
+	align-items: center;
+	height: 40px;
+	@extend %textSize_subtitle2;
+	color: $textDark;
+	&:hover {
+		color: $textBlue;
+		transition: 0.2s;
+	}
+	&_active {
+		background: $fillBlueLight;
+		color: $textBlue;
+		transition: 0.1s;
+	}
+	&::before{
+		padding: 0 22px 0 32px;
+		height: inherit;
+		display: flex;
+		align-items: center;
+	}
+}

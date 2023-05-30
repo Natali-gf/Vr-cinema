@@ -1,0 +1,11 @@
+@import '../../styles/variables';
+
+.content {
+	background-color: $background;
+	width: 100vw;
+	height: 100vh;
+	&__container {
+		margin-left: 16.875%;
+		height: inherit;
+	}
+}

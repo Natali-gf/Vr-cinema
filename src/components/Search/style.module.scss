@@ -1,0 +1,41 @@
+@import '../../styles/variables';
+
+.search {
+	box-sizing: border-box;
+	background-color: white;
+	display: flex;
+	align-items: center;
+	width: 460px;
+	height: 38px;
+	padding: 0 40px;
+	border-radius: 16px;
+	border: 1px solid #D6E0F3;
+	&:hover{
+		border: 1px solid #10A5FF;
+		
+	}
+
+	input {
+		outline: none;
+		border: none;
+		width: 100%;
+	}
+	&__img {
+		background-image: url('../../assets/icons/searchIcon.png');
+		margin-right: 10px;
+		width: 16px;
+		height: 16px;
+		background-repeat: no-repeat;
+		background-position: center;
+		
+	}
+	&:hover &__img {
+		background-image: url("../../assets/icons/searchIconBlue.png");
+	}
+	button {
+		display: none;
+		border: none;
+		background: none;
+		margin-left: 10px;
+	}
+}

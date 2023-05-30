@@ -1,0 +1,13 @@
+@import '../../styles/variables';
+
+.sidebarMenu {
+	display: flex;
+	justify-content: space-between;
+	&__menu {
+		padding: 4px;
+		cursor: pointer;
+		&:hover {
+			color: $blue;
+		}
+	}
+}

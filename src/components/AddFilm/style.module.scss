@@ -1,0 +1,18 @@
+@import '../../styles/variables';
+
+.addFilm {
+	background-color: $fillBlue;
+	color: $textWhite;
+	padding: 12px 24px;
+	border: none;
+	border-radius: 8px;
+	cursor: pointer;
+	white-space: nowrap;
+	@extend %textSize_Button1;
+	&::before {
+		padding: 0 16px 0 4px;
+	}
+	&:hover, &:focus {
+		background-color: $fillBlueDark;
+	}
+}
