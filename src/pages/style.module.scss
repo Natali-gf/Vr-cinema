@@ -1,0 +1,73 @@
+@import '../styles/variables';
+
+.content {
+	@include width-height(83.125%, 100vh);
+	min-width: 975px;
+	&__container {
+		@include flex-grid(flex, column, null, center);
+		padding: 0 20px;
+		position: relative;
+	}
+	&__header {
+		padding: 0 96px 24px;
+		margin: 42px 0 36px;
+	}
+	&__filterPanel {
+		position: relative;
+		width: 100%;
+		display: grid;
+		@include flex-grid(grid, null, start, stretch);
+		grid-template-columns: 76px 1fr .25fr 76px;
+		grid-template-rows: 48px;
+		grid-template-areas:
+			'.	filters button	.'
+			'option option option option';
+		padding: 0 20px;
+	}
+	&__filters {
+		grid-area: filters;
+		@include flex-grid(grid, null, start, center);
+	}
+	&__addButton {
+		grid-area: button;
+	}
+	&__options {
+		grid-area: option;
+		margin-top: 6px;
+	}
+	&__tableBlock {
+		flex: 1 1 auto;
+		width: 100%;
+		height: 100%;
+		padding: 0 20px;
+		margin-top: 20px;
+		overflow-y: hidden;
+		&_franchisee {
+			overflow-x: scroll;
+			width: calc(100% - 40px);
+			padding: 0;
+			&::-webkit-scrollbar {
+				height: 15px;
+				border-radius: 8px;
+			}
+			&::-webkit-scrollbar-track {
+				border-radius: 8px;
+				border: 2px solid $fillWhite;
+				background-color: rgba(255, 255, 255, 0.356);
+			}
+			&::-webkit-scrollbar-thumb {
+				background: $strokeInitial;
+				border-radius: 8px;
+				border: 2px solid $fillWhite;
+			}
+			&::-webkit-scrollbar-button {
+				display: block;
+				@include width-height(10px, 5px);
+				// border: 4px solid $strokeInitial;
+			}
+		}
+	}
+	&__addWindow {
+		position: absolute;
+	}
+}

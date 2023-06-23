@@ -1,0 +1,27 @@
+@import '../styles/reset';
+@import '../styles/variables';
+@import '../styles/iconsFont';
+
+@font-face {
+	font-family: 'Manrope';
+	src: url(../styles/fonts/Manrope-VariableFont_wght.ttf);
+}
+
+* {
+	font-family: 'Manrope', Arial, Helvetica, 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+	box-sizing: border-box;
+}
+
+.main-container {
+	display: flex;
+	justify-content: space-between;
+}
+
+body {
+	background: $background;
+	// background: linear-gradient(to right, $fillWhite 250px, transparent 200px), linear-gradient(to left, $background 83.125%, $fillWhite 16.875%);
+}
+
+.hidden {
+	display: none;
+}

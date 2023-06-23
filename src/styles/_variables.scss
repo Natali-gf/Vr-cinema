@@ -1,0 +1,137 @@
+// @import 'bulma/sass/utilities/_all.sass';
+
+//colors
+$background: #EFF5FF;
+
+//icons
+$iconBlue: #10A5FF;
+$iconGreen: #04C35C;
+$iconRed: #CB3C3C;
+$iconDark: #313131;
+$iconLightBlue: #EFF5FF;
+$iconWhite: #FCFCFC;
+$iconUnactive: #A7A7A7;
+
+//text colors
+$textBlue: #10A5FF;
+$textGrey: #474747;
+$textDark: #313131;
+$textWhite: #FFFFFF;
+
+//stroke colors (input, button, focus, hover)
+$strokeBlue: #10A5FF;
+$strokeInitial: #D6E0F3;
+
+$strokeDark: #313131;
+$strokeRed: #CB3C3C;
+$strokeWhite: #FFFFFF;
+
+//fill colors
+$fillBlue: #10A5FF;
+$fillBlueDark: #0077BF;
+$fillDisabled: #A7A7A7;
+$fillBlueLight: #EFF5FF;
+$fillWhite: #FFFFFF;
+
+//shadow
+$shadowSidebar: 2px 0px 24px rgba(0, 0, 0, 0.08);
+$shadowMainArea: 2px 7px 24px rgba(0, 0, 0, 0.04);
+$shadowSecondArea: 0 4px 10px rgba(0, 0, 0, 0.1);
+
+@mixin width-height($width, $height: &width){
+	width: $width;
+	height: $height;
+}
+@mixin borderStyle ($border, $borderRadius){
+	border: $border;
+	border-radius: $borderRadius;
+}
+@mixin flex-grid ($display, $direction, $justify, $align){
+	display: $display;
+	flex-direction: $direction;
+	justify-content: $justify;
+	align-items: $align;
+}
+
+%textSize_body, %textSize_table, %textSize_button1, %textSize_subtitle4 {
+	font-size: 16px;
+	line-height: 24px;
+	font-weight: 500;
+}
+%textSize_button2 {
+	font-size: 15px;
+	line-height: 22.5px;
+	font-weight: 500;
+}
+%textSize_caption2 {
+	font-size: 16px;
+	line-height: 24px;
+	font-weight: 400;
+}
+%textSize_caption1 {
+	font-size: 12px;
+	line-height: 18px;
+	font-weight: 400;
+}
+%textSize_subtitle3 {
+	font-size: 16px;
+	line-height: 24px;
+	font-weight: 600;
+}
+%textSize_subtitle2 {
+	font-size: 17px;
+	line-height: 25.5px;
+	font-weight: 500;
+}
+%textSize_subtitle1 {
+	font-size: 18px;
+	line-height: 27px;
+	font-weight: 500;
+}
+%textSize_title {
+	font-size: 32px;
+	line-height: 38px;
+	font-weight: 600;
+}
+%textSize_preview {
+	font-size: 12px;
+	line-height: 15px;
+	font-weight: 400;
+}
+
+@mixin textStyle ($textName, $color){
+	color: $color;
+	@if $textName == title {
+		@extend %textSize_title;
+	}
+	@if $textName == subtitle1 {
+		@extend %textSize_subtitle1;
+	}
+	@if $textName == subtitle2 {
+		@extend %textSize_subtitle2;
+	}
+	@if $textName == subtitle3 {
+		@extend %textSize_subtitle3;
+	}
+	@if $textName == subtitle4 {
+		@extend %textSize_subtitle4;
+	}
+	@if $textName == button1 {
+		@extend %textSize_button1;
+	}
+	@if $textName == button2 {
+		@extend %textSize_button2;
+	}
+	@if $textName == caption1 {
+		@extend %textSize_caption1;
+	}
+	@if $textName == caption2 {
+		@extend %textSize_caption2;
+	}
+	@if $textName == body {
+		@extend %textSize_body;
+	}
+	@if $textName == preview {
+		@extend %textSize_preview;
+	}
+}
