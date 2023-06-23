@@ -1,0 +1,18 @@
+@import '../../../styles/variables';
+
+.applyButton {
+	height: fit-content;
+	background-color: $fillBlue;
+	@include flex-grid(flex, null, null, center);
+	@include borderStyle(none, 8px);
+	@include textStyle(button2, $textWhite);
+	transition: .2s;
+	cursor: pointer;
+	&:hover {
+		background-color: $fillBlueDark;
+	}
+	&:disabled {
+		background-color: $fillDisabled;
+		cursor: not-allowed;
+	}
+}

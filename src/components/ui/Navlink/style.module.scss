@@ -1,0 +1,20 @@
+@import '../../../styles/variables';
+
+.navlink {
+	height: 40px;
+	@include flex-grid(flex, null, null, center);
+	@include textStyle(subtitle2, $textDark);
+	&:hover {
+		color: $textBlue;
+		transition: 0.2s;
+	}
+	&_active {
+		background: $fillBlueLight;
+		color: $textBlue;
+		transition: 0.1s;
+	}
+	&::before{
+		@include flex-grid(flex, null, null, center);
+		padding: 0 22px 0 32px;
+	}
+}

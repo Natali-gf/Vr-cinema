@@ -1,0 +1,64 @@
+@import '../../../styles/variables';
+
+.options {
+	// height: 192px;
+	@include flex-grid(flex, null, space-between, flex-end);
+	background: $fillWhite;
+	border-radius: 16px;
+	// flex-wrap: nowrap;
+	gap: 76px;
+
+	&__filters {
+		@include width-height(100%, 76px);
+		margin: 58px 0;
+		margin-left: 76px;
+	}
+	&__button {
+		// height: 76px;
+		padding: 12px 24px;
+		margin: 58px 0;
+		margin-right: 76px;
+	}
+}
+
+.filter {
+	&__list {
+		@include flex-grid(flex, null, space-between, flex-end);
+		height: 76px;
+		display: flex;
+		justify-content: space-between;
+		align-items: flex-end;
+		background-color: $fillWhite;
+		// border-radius: 16px;
+		// padding: 58px 76px;
+		// gap: 3.4%;
+		// margin-top: 6px;
+	}
+	&__item {
+		width: 231px;
+		height: 40px;
+	}
+	&__title{
+		@extend %textSize_body;
+		padding: 0 0 12px 0;
+	}
+	&__component {
+		@include width-height(100%);
+	}
+	&__blockYears {
+		width: 286px;
+		height: 100%;
+		display: flex;
+		align-items: flex-end;
+		gap: 20px;
+	}
+	&__years {
+		width: 133px;
+		height: 40px;
+	}
+}
+
+// .disabledButton {
+// 	background-color: $fillDisabled;
+// 	cursor: not-allowed;
+// }

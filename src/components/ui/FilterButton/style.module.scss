@@ -1,0 +1,18 @@
+@import '../../../styles/variables';
+
+.filterButton {
+	display: flex;
+	align-items: center;
+	height: fit-content;
+	background-color: $fillWhite;
+	border: 1px solid $strokeInitial;
+	border-radius: 8px;
+	padding: 10px 20px 10px 20px;
+	cursor: pointer;
+	white-space: nowrap;
+	@include textStyle(button2, $textDark);
+	&:hover {
+		color: $textBlue;
+		border: 1px solid $strokeBlue;
+	}
+}

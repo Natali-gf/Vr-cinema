@@ -1,0 +1,36 @@
+@import '../../../styles/variables';
+
+.search {
+	background-color: $strokeWhite;
+	@include flex-grid(flex, null, null, center);
+	@include width-height(460px, 38px);
+	@include borderStyle(1px solid $strokeInitial, 16px);
+	padding: 0 42px;
+	&:hover{
+		border-color: $strokeBlue;
+		.search__label {
+			color: $iconBlue;
+		}
+	}
+	&__label  {
+		margin: 0 14px 0 0;
+		font-size: .75em;
+		@include flex-grid(flex, null, null, center)
+	}
+	&__input {
+		@include textStyle(caption1, $textGrey);
+		outline: none;
+		border: none;
+		width: 100%;
+		&::placeholder{
+			@include textStyle(caption1, $textGrey);
+		}
+	}
+	&__button {
+		font-size: .5em;
+		padding: 8px;
+		border: none;
+		background: none;
+		cursor: pointer;
+	}
+}

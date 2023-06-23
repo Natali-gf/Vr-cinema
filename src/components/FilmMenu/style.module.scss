@@ -1,0 +1,30 @@
+@import '../../styles/variables';
+
+.filmMenu {
+	position: absolute;
+	top: 0;
+	right: 25px;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: flex-start;
+	width: 200px;
+	height: 156px;
+	border: 1px solid $strokeInitial;
+	border-radius: 8px;
+	background-color: $fillWhite;
+	&__list {
+		gap: 20px;
+	}
+	&__item {
+		display: flex;
+		padding: 10px 24px;
+		&:hover {
+			background-color: $fillBlueLight;
+			width: calc(100% - 28.5px);
+		}
+	}
+	&__icon {
+		margin-right: 16px;
+	}
+}

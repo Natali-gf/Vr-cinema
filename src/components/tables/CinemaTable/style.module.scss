@@ -1,0 +1,123 @@
+@import '../../../styles/variables';
+
+.table_container {
+	width: calc(100% - 40px);
+	// height: 100vh;
+	margin-top: 20px;
+	display: flex;
+	flex-direction: column;
+}
+
+.table {
+	position: relative;
+	background-color: white;
+	box-shadow: $shadowMainArea;
+	border-radius: 16px 16px 0 0;
+	// width: 100%;
+	&__head{
+		border-bottom: 2px solid #D6E0F3;
+		font-size: 18px;
+		line-height: 27px;
+		height: 70px;
+		border-radius: 16px ;
+	}
+	thead>tr {
+		display: grid;
+		width: calc(100% - 40px);
+		margin: 0 auto;
+		padding-top: 17px;
+		grid-template-columns: .5fr 2fr 3fr 3fr 7fr;
+		border-radius: 16px 16px 0 0;
+	}
+	tbody>tr {
+		display: grid;
+		width: calc(100% - 40px);
+		margin: 0 auto;
+		grid-template-columns: .5fr 2fr 3fr 3fr 7fr;
+		align-items: center;
+	}
+	td {
+		padding-bottom: 10px;
+	}
+	& td:nth-child(1){
+		&::after {
+			content: '';
+			display: block;
+			box-sizing: border-box;
+			border: 1px solid $strokeDark;
+			width: 16px;
+			height: 16px;
+		}
+	}
+	td button {
+		position: relative;
+		background: none;
+		border: none;
+		cursor: pointer;
+	}
+	&__column {
+		text-align: start;
+		vertical-align: middle;
+	}
+	&__body {
+		background-color: white;
+		max-height: calc(100vh - 283px);
+		width: 100%;
+		min-height: 150px;
+		position: absolute;
+		overflow-y: scroll;
+		&::-webkit-scrollbar {
+			width: 10px;
+			border-radius: 5px;
+		}
+		&::-webkit-scrollbar-track {
+			border-radius: 16px;
+			background-color: white;
+		}
+		&::-webkit-scrollbar-thumb {
+			background: rgb(195, 203, 216);
+			border-radius: 5px;
+			border: 2px solid white;
+		}
+	}
+	// &__row {
+		// text-align: center;
+		// border-bottom: 1.33px solid #D6E0F3;
+	// }
+	&__image {
+		object-fit: cover;
+		width: 148px;
+		height: 148px;
+		margin-top: 25px;
+		border-radius: 16px;
+	}
+}
+
+@keyframes spin {
+	to {
+		transform: rotate(360deg);
+	}
+}
+.loading {
+	animation: spin 2s linear infinite;
+	width: 100px;
+	align-self: center;
+	margin-top: 200px;
+}
+
+// // ::-webkit-scrollbar {
+// // 	width: 10px;
+// // 	border-radius: 5px;
+// // }
+
+// // ::-webkit-scrollbar-track {
+// // 	max-height: 100%;
+// // 	border-radius: 16px;
+// // 	background-color: white;
+// // }
+
+// // ::-webkit-scrollbar-thumb {
+// // 	background: rgb(195, 203, 216);
+// // 	border-radius: 5px;
+// // 	border: 2px solid white;
+// // }

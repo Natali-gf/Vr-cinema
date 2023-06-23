@@ -1,0 +1,38 @@
+@import '../../styles/variables';
+
+:where(.css-dev-only-do-not-override-1wazalj).ant-input-status-error:not(.ant-input-disabled):not(.ant-input-borderless).ant-input,
+:where(.css-dev-only-do-not-override-1wazalj).ant-input-affix-wrapper-status-error:not(.ant-input-affix-wrapper-disabled):not(.ant-input-affix-wrapper-borderless).ant-input-affix-wrapper,
+.ant-form-item-has-error {
+	border-color: $iconRed;
+}
+
+:where(.css-dev-only-do-not-override-1wazalj).ant-form-item .ant-form-item-explain-error {
+   color: $iconRed;
+}
+
+// .ant-input-status-error {
+// 	border-color: $iconRed !important;
+// }
+
+.ant-input-clear-icon {
+	color: $textDark;
+	&:hover {
+		color: $iconBlue;
+		&::after {
+			color: $iconBlue;
+		}
+	}
+	&::after {
+		font-family: 'iconsFont';
+		content: '\e90a';
+		color: $iconDark;
+		font-size: .9em;
+		padding-right: 4px;
+		// &:hover {
+		// 	color: $iconBlue;
+		// }
+	}
+	& svg {
+		display: none;
+	}
+}
