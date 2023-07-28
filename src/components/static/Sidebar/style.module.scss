@@ -8,10 +8,17 @@
 		box-shadow: 2px 0 24px rgba(0, 0, 0, 0.08);
 		height: 100vh;
 		@include flex-grid(flex, column, null, null);
-		padding: 42px 0;
+		padding: 0 0 42px 0;
+		overflow: auto;
+		&::-webkit-scrollbar {
+			width: 0;
+		}
 	}
 	&__menu {
-		padding: 9px 28px;
+		position: sticky;
+		top: 0;
+		background: $fillWhite;
+		padding: 51px 28px 9px;
 	}
 	&__user {
 		margin: 60px 28px 43px;
@@ -19,8 +26,6 @@
 	&__tabs {
 		flex: 1 1 auto;
 	}
-	// &__settings{
-	// }
 }
 
 .user {
@@ -37,21 +42,3 @@
 		@include textStyle(caption1, $textGrey);
 	}
 }
-
-// .tabs {
-// 	&__list{
-// 	}
-// 	&__item{
-// 	}
-// }
-
-// .sidebarMenu {
-// 	@include flex-grid(flex, null, space-between, null);
-// 	&__menu {
-// 		padding: 4px;
-// 		cursor: pointer;
-// 		&:hover {
-// 			color: $strokeBlue;
-// 		}
-// 	}
-// }

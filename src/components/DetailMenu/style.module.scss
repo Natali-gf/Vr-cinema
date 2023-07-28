@@ -1,0 +1,38 @@
+@import '../../styles/variables';
+
+.detailMenu {
+	position: relative;
+	background: $fillWhite;
+	&__list {
+		gap: 8px;
+		padding: 16px 0;
+		position: absolute;
+		top: 0;
+		right: 50px;
+		@include flex-grid(flex, column, center, flex-start);
+		width: fit-content;
+		height: fit-content;
+		@include borderStyle(1px solid $strokeInitial, 8px);
+		background-color: $fillWhite;
+		z-index: 10;
+	}
+	&__item {
+		display: flex;
+		justify-content: stretch;
+		padding: 10px 24px;
+		width: 100%;
+		white-space: nowrap;
+		&:hover {
+			background-color: $fillBlueLight;
+		}
+	}
+	&__button{
+		@include textStyle(body, $textDark);
+		background: transparent;
+	}
+	&__icon {
+		width: 24px;
+		height: 24px;
+		margin-right: 16px;
+	}
+}

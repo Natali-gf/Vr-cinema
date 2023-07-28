@@ -1,0 +1,195 @@
+@import '../../styles/variables';
+
+.form {
+	@include flex-grid(flex, column, space-between, null);
+	@include width-height(100%);
+	max-height: 100%;
+	position: relative;
+	padding-top: 30px;
+	&__subtitle {
+		@include textStyle(body, black)
+	}
+	&__select {
+		width: 100%;
+		height: 50px;
+		&>div {
+			@include textStyle(caption2, $textDark);
+		}
+	}
+	&__button {
+		padding: 12px 25px;
+		margin: 60px auto 0;
+	}
+	&__error {
+		border-color: $strokeRed;
+		@include borderStyle(5.5px solid $strokeInitial, 8px);
+		&:hover, &:focus-within {
+			border-color: $strokeRed;
+			color: $strokeRed;
+		}
+		&_message {
+			@include textStyle(caption3, $textRed);
+			margin-top: 4px;
+		}
+	}
+	&__poster {
+		grid-area: image;
+	}
+	&__fields {
+		max-height: 688px;
+		overflow-y: scroll;
+		// padding-right: 5px;
+		scrollbar-width: none;
+		&::-webkit-scrollbar {
+			width: 0;
+			// width: 8px;
+			// border-radius: 5px;
+		}
+		// &::-webkit-scrollbar-track {
+		// 	border-radius: 16px;
+		// 	background-color: $fillWhite;
+		// }
+		// &::-webkit-scrollbar-thumb {
+		// 	background: $strokeInitial;
+		// 	border-radius: 5px;
+		// 	border: 2px solid $fillWhite;
+		// }
+	}
+	&__filmFields {
+		display: grid;
+		justify-content: start;
+		height: 100%;
+		grid-template-columns: repeat(2, 1fr);
+		grid-template-rows: 281px repeat(5, fit-content) 1fr;
+		gap: 24px;
+		grid-template-areas:
+			'image image'
+			'title title'
+			'studio studio'
+			'genre genre'
+			'lang age'
+			'time year'
+			'public public';
+		z-index: 1;
+	}
+	&__filmField {
+		height: fit-content;
+		&:nth-of-type(2){
+			grid-area: title;
+		}
+		&:nth-child(3){
+			grid-area: studio;
+			z-index: 12;
+		}
+		&:nth-child(4){
+			grid-area: genre;
+			z-index: 11;
+		}
+		&:nth-child(5){
+			grid-area: lang;
+		}
+		&:nth-child(6){
+			grid-area: age;
+		}
+		&:nth-child(7){
+			grid-area: time;
+		}
+		&:nth-child(8){
+			grid-area: year;
+		}
+		&:nth-child(9){
+			grid-area: public;
+		}
+	}
+	&__cinemaFields {
+		display: grid;
+		gap: 24px;
+	}
+	&__cinemaField {
+		display: flex;
+		flex-direction: column;
+	}
+	&__franchiseeFields, &__franchiseeFields_additional {
+		// max-width: 500px;
+		display: grid;
+		gap: 24px;
+	}
+	&__franchiseeFields {
+		height: fit-content;
+	}
+	&__franchiseeField {
+		display: flex;
+		flex-direction: column;
+	}
+}
+
+.editing{
+	padding: 23px 12px 0;
+	margin: -60px 0 32px -80px;
+	&__button {
+		@include textStyle(button1, $textBlue);
+		background: $fillWhite;
+		padding: 10px 20px;
+		border: none;
+		position: relative;
+		cursor: pointer;
+	}
+}
+
+.poster{
+	@include flex-grid(flex, null, space-between, center);
+	@include width-height(100%, 265px);
+	position: relative;
+	&__upload {
+		font-size: 6.25em;
+		@include width-height(265px);
+	}
+	&__change, &__delete {
+		font-size: 1.1em;
+		@include width-height(61px);
+	}
+	&__change, &__upload, &__delete {
+		border: 1.5px solid $strokeInitial;
+		border-radius: 50%;
+		@include flex-grid(flex, null, center, center);
+		position: relative;
+		&:hover {
+			border: 1.5px solid $strokeBlue;
+			color: $strokeBlue
+		}
+	}
+	&__description {
+		@extend %textSize_caption1;
+		text-align: center;
+	}
+	&__input {
+		@include width-height(100%);
+		position: absolute;
+		border-radius: 50%;
+		opacity: 0;
+	}
+	&__preview {
+		position: absolute;
+		display: block;
+		@include width-height(100%);
+		border-radius: 50%;
+		object-fit: cover;
+	}
+}
+
+@keyframes spin {
+	to {
+		transform: rotate(360deg);
+	}
+}
+.loading {
+	position: absolute;
+	animation: spin 2s linear infinite;
+	width: 100px;
+	margin: auto;
+	top: 0;
+	bottom: 0;
+	right: 0;
+	left: 0;
+	z-index: 10;
+}

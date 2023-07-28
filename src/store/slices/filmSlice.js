@@ -1,9 +1,14 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-    loading: false,
+    loadingPage: false,
+    loadingWindow: false,
     error: '',
-    films: []
+    errorView: '',
+    films: [],
+    filmData: '',
+    filmId: '',
+
 }
 
 export const filmSlice = createSlice({
@@ -11,20 +16,36 @@ export const filmSlice = createSlice({
     initialState,
     reducers: {
         fetching: (state) => {
-            state.loading = true
+            state.loadingPage = true
         },
         fetchSuccess: (state, action) => {
-            state.loading = false
+            state.loadingPage = false
             state.films = action.payload
         },
         fetchError: (state, action) => {
-            state.loading = false
+            state.loadingPage = false;
+            state.loadingWindow = false;
             state.error = action.payload.message;
-        }
+            state.errorView = action.payload;
+        },
+        fetchingCurrentFilm: (state) => {
+            state.loadingWindow = true
+        },
+        fetchCurrentFilmSuccess: (state, action) => {
+            state.loadingWindow = false;
+            state.filmData = action.payload
+        },
+        setFilmId: (state, action) => {
+            state.filmId = action.payload
+        },
+        clearFilmData: (state) => {
+            state.filmData = ''
+        },
     }
 })
 
-    export const { fetching, fetchSuccess, fetchError } = filmSlice.actions
-    export const selectAllFilms = (state) => state.films;
+export const { fetching, fetchSuccess, fetchError,
+    fetchingCurrentFilm, fetchCurrentFilmSuccess,
+    setFilmId, clearFilmData } = filmSlice.actions;
 
-    export default filmSlice.reducer
+export default filmSlice.reducer

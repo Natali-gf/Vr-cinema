@@ -4,6 +4,7 @@
 	@include flex-grid(flex, null, space-between, center);
 	width: 100%;
 	border-bottom: 2px solid $strokeInitial;
+
 	&__title {
 		@include textStyle(title, $textDark);
 		white-space: nowrap;

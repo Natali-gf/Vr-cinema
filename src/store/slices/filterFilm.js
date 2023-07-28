@@ -3,8 +3,8 @@ import { createSlice } from '@reduxjs/toolkit'
 const initialState = {
 	genre: [],
 	studio: [],
-	yearFrom: [],
-	yearTo: [],
+	yearFrom: '',
+	yearTo: '',
 	language: [],
 	filtered: 'initialState',
 	sort: '',
@@ -13,6 +13,9 @@ const initialState = {
 	filterVisible: false,
 	activeFilter: false,
 	clearFilter: false,
+	ascSort: true,
+	activeSort: false,
+	clearBtnSort: false,
 }
 
 	export const filterSlice = createSlice({
@@ -26,10 +29,10 @@ const initialState = {
 			state.studio = [...action.payload];
 		},
 		selectYearFrom(state, action) {
-			state.yearFrom = [{...action.payload}];
+			state.yearFrom = action.payload;
 		},
 		selectYearTo(state, action) {
-			state.yearTo = [{...action.payload}];
+			state.yearTo = action.payload;
 		},
 		selectLang: (state, action) => {
 			state.language = [...action.payload];
@@ -44,8 +47,8 @@ const initialState = {
 		clearAllFilter(state) {
 			state.genre = [];
 			state.studio = [];
-			state.yearFrom = [];
-			state.yearTo = [];
+			state.yearFrom = '';
+			state.yearTo = '';
 			state.language = [];
 			state.filtered = 'initialState';
 		},
@@ -64,15 +67,24 @@ const initialState = {
 		setActiveFilter(state, action) {
 			state.activeFilter = action.payload;
 		},
-		setClearFilter(state, action) {
+		showClearBtnFilter(state, action) {
 			state.clearFilter = action.payload;
-		}
+		},
+		setDescSort(state, action){
+			state.ascSort = action.payload
+		},
+		setActiveSort(state, action){
+			state.activeSort = action.payload;
+		},
+		showClearBtnSort(state, action){
+			state.clearBtnSort = action.payload;
+		},
 	},
 })
 
 export const { selectGenre, selectStudio, selectYearFrom, selectYearTo, selectLang,
 			currentFilter, clearCurrentFilter, clearAllFilter,
 			selectSort, currentSort, resetAllButton,
-			setFilterVisible, setActiveFilter, setClearFilter } = filterSlice.actions
+			setFilterVisible, setActiveFilter, showClearBtnFilter, setDescSort, setActiveSort, showClearBtnSort } = filterSlice.actions
 
 export default filterSlice.reducer

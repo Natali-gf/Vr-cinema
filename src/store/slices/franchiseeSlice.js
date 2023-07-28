@@ -1,9 +1,13 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-    loading: false,
+    loadingPage: false,
+    loadingWindow: false,
     error: '',
-    franchisee: []
+    errorView: '',
+    franchisee: [],
+    franchiseeId: '',
+    franchiseeData: [],
 }
 
 export const franchiseeSlice = createSlice({
@@ -11,20 +15,36 @@ export const franchiseeSlice = createSlice({
     initialState,
     reducers: {
         fetching: (state) => {
-            state.loading = true
+            state.loadingPage = true;
         },
         fetchSuccess: (state, action) => {
-            state.loading = false
-            state.franchisee = action.payload
+            state.loadingPage = false;
+            state.franchisee = action.payload;
         },
         fetchError: (state, action) => {
-            state.loading = false
+            state.loadingPage = false;
+            state.loadingWindow = false;
             state.error = action.payload.message;
-        }
+            state.errorView = action.payload;
+        },
+        fetchingCurrentFranchisee: (state) => {
+            state.loadingWindow = true;
+        },
+        fetchCurrentFranchiseeSuccess: (state, action) => {
+            state.loadingWindow = false;
+            state.franchiseeData = action.payload;
+        },
+        setFranchiseeId: (state, action) => {
+            state.franchiseeId = action.payload;
+        },
+        clearFranchiseeData: (state) => {
+            state.franchiseeData = '';
+        },
     }
 })
 
-export const { fetching, fetchSuccess, fetchError } = franchiseeSlice.actions;
-export const allFranchisee = (state) => state.franchisee;
+export const { fetching, fetchSuccess, fetchError,
+    fetchingCurrentFranchisee, fetchCurrentFranchiseeSuccess,
+    setFranchiseeId, clearFranchiseeData  } = franchiseeSlice.actions;
 
 export default franchiseeSlice.reducer

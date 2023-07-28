@@ -1,0 +1,73 @@
+@import '../../styles/variables';
+
+.options {
+	display: flex;
+	align-items: center;
+	height: 100%;
+	&__filters {
+	}
+	&__button {
+		grid-area: button;
+		padding: 12px 24px;
+		margin-top: 28px;
+	}
+}
+
+.filter {
+	width: 100%;
+	height: 76px;
+
+	&_film {
+		grid-template-columns: 76px 2fr 7% 135px 76px;
+		grid-template-areas:
+			'. filters . button .';
+	}
+	&_cinema {
+		grid-template-columns: 76px 2fr 20% 135px 76px;
+		grid-template-areas:
+			'. filters . button .';
+	}
+	&_franchisee {
+		grid-template-columns: 76px 2fr 7% 135px 76px;
+		grid-template-areas:
+			'. filters . button .';
+	}
+	&, &__blockYears, &__list {
+		display: grid;
+		align-items: start;
+	}
+	&__list {
+		grid-area: filters;
+		gap: 4%;
+		white-space: nowrap;
+	}
+	&__list_film {
+		grid-template-columns: 1fr 1fr 1.4fr 1fr;
+	}
+	&__list_cinema {
+		grid-template-columns: 1fr 1fr 1fr;
+	}
+	&__list_franchisee {
+		grid-template-columns: 250px 3fr;
+	}
+	&__item {
+	}
+	&__title{
+		@include textStyle(body, $textDark);
+		padding-bottom: 12px;
+	}
+	&__blockYears {
+		grid-template-columns: 1fr 1fr;
+		gap: 20px;
+	}
+	&__years{
+		&:nth-child(1){
+			margin-top: 36px;
+		}
+	}
+}
+
+.disabledButton {
+	background-color: $fillDisabled;
+	cursor: not-allowed;
+}

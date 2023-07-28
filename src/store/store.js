@@ -1,32 +1,34 @@
 import { configureStore, combineReducers } from "@reduxjs/toolkit";
-import filmReducer from './slices/filmSlice';
+import films from './slices/filmSlice';
 import filter from "./slices/filterFilm";
 import filterCinema from "./slices/filterCinema";
+import filterFranchisee from "./slices/filterFranchisee";
 import category from "./slices/categorySlice";
 import copyright from "./slices/copyrightSlice";
-import stateAddWindow from "./slices/windowStateSlice";
+import statePopupWindow from "./slices/windowStateSlice";
 import search from "./slices/searchSlice";
 import cinema from "./slices/cinemaSlice";
-import form from "./slices/formSlice";
 import franchisee from "./slices/franchiseeSlice";
-import addFranchisee from "./slices/addFranchiseeSlice";
-import addCinema from "./slices/addCinemaSlice";
-import addFilm from "./slices/addFilmSlice";
+import language from "./slices/languageSlice";
+import typeCinema from "./slices/typeCinemaSlice";
+import city from "./slices/citySlice";
+import notification from "./slices/notification";
 
 const rootReducer = combineReducers({
-  films: filmReducer,
+  films,
   filter,
   filterCinema,
+  filterFranchisee,
   category,
   copyright,
-  stateAddWindow,
+  language,
+  typeCinema,
+  city,
+  statePopupWindow,
   search,
   cinema,
   franchisee,
-  form,
-  addFranchisee,
-  addCinema,
-  addFilm,
+  notification,
 })
 
 export function setupStore() {

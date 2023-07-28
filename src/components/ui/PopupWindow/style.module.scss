@@ -1,0 +1,48 @@
+@import '../../../styles/variables';
+
+.window {
+	@include width-height(100%, 100%);
+	background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4));
+	// position: fixed;
+	z-index: 100;
+	display: flex;
+	align-items: center;
+	overflow: auto;
+	&::-webkit-scrollbar {
+		width: 0;
+	}
+	&__container {
+		box-sizing: border-box;
+		position: relative;
+		@include flex-grid(flex, column, center, center);
+		@include width-height(670px, 879px);
+		background-color: $fillWhite;
+		margin: auto;
+		border-radius: 16px;
+		padding: 60px 80px;
+	}
+	&__close {
+		position: absolute;
+		top: 32px;
+		right: 32px;
+		padding: 7px;
+		background: none;
+		border: none;
+		&::before {
+			color: #A7A7A7;
+			font-size: 16px;
+			@include flex-grid(flex, null, center, center);
+		}
+		&:hover {
+			&::before {
+				color: $iconBlue;
+			}
+		}
+	}
+	&__form {
+		@include width-height(100%);
+	}
+	&__sendButton {
+		padding: 12px 42px;
+	}
+}

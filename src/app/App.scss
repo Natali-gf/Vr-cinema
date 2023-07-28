@@ -1,4 +1,4 @@
-@import '../styles/reset';
+@import '../styles/reset.scss';
 @import '../styles/variables';
 @import '../styles/iconsFont';
 
@@ -9,7 +9,6 @@
 
 * {
 	font-family: 'Manrope', Arial, Helvetica, 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-	box-sizing: border-box;
 }
 
 .main-container {

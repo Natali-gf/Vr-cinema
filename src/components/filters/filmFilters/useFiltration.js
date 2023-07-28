@@ -1,6 +1,3 @@
-// import style from './style.module.scss';
-// import cn from 'classnames';
-// import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { currentFilter } from '../../../store/slices/filterFilm';
 
@@ -11,7 +8,6 @@ export default function useFiltration() {
 	const dispatch = useDispatch();
 
 	//filtration
-	// function getSelectedFilters(){
 		if(films.length || filtered != 'initialState'){
 			let filteredFilms = films;
 			if (genre.length) {
@@ -40,5 +36,4 @@ export default function useFiltration() {
 			//update filters state
 			dispatch(currentFilter(filteredFilms))
 		}
-	// }
 }

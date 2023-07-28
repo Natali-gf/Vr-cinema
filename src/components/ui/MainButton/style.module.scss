@@ -1,0 +1,26 @@
+@import '../../../styles/variables';
+
+.button {
+	height: fit-content;
+	background-color: $fillBlue;
+	@include flex-grid(flex, null, center, center);
+	@include borderStyle(none, 8px);
+	@include textStyle(button1, $textWhite);
+	white-space: nowrap;
+	transition: .2s;
+	cursor: pointer;
+	&::before {
+		padding: 0 16px 0 4px;
+	}
+	&:hover {
+		background-color: $fillBlueDark;
+	}
+	&:disabled {
+		background-color: $fillDisabled;
+		cursor: not-allowed;
+	}
+}
+
+.addButton {
+	padding: 12px 24px;
+}

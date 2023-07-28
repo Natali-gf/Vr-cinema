@@ -1,16 +1,20 @@
-@import '../../../styles/variables';
+// @import '../../../styles/variables';
 
-.addButton {
-	background-color: $fillBlue;
-	padding: 12px 24px;
-	@include borderStyle(none, 8px);
-	cursor: pointer;
-	white-space: nowrap;
-	@include textStyle(button1, $textWhite);
-	&::before {
-		padding: 0 16px 0 4px;
-	}
-	&:hover, &:focus {
-		background-color: $fillBlueDark;
-	}
-}
+// .addButton {
+// 	background-color: $fillBlue;
+// 	padding: 12px 24px;
+// 	@include borderStyle(none, 8px);
+// 	cursor: pointer;
+// 	white-space: nowrap;
+// 	@include textStyle(button1, $textWhite);
+// 	&::before {
+// 		padding: 0 16px 0 4px;
+// 	}
+// 	&:hover, &:focus {
+// 		background-color: $fillBlueDark;
+// 	}
+// 	&:disabled {
+// 		background-color: $fillDisabled;
+// 		cursor: not-allowed;
+// 	}
+// }

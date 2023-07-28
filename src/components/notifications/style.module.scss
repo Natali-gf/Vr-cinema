@@ -1,0 +1,11 @@
+@import '../../styles/variables';
+
+.notification {
+	position: absolute;
+	@include textStyle(caption3, $textWhite);
+	background: #595959;
+	border-radius: 8px;
+	bottom: 24px;
+	left: 24px;
+	padding: 10px 16px;
+}

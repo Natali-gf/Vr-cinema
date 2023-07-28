@@ -1,27 +1,53 @@
 import { createSlice } from '@reduxjs/toolkit'
 
 const initialState = {
-	addFilmWindow: false,
-	addCinemaWindow: false,
-	addFranchiseeWindow: false,
+	filmAddWindow: false,
+	cinemaAddWindow: false,
+	franchiseeAddWindow: false,
+	filmEditWindow: false,
+	cinemaEditWindow: false,
+	franchiseeEditWindow: false,
+	filmInfoWindow: false,
+	cinemaInfoWindow: false,
+	franchiseeInfoWindow: false,
 }
 
-	export const stateAddWindow = createSlice({
-	name: 'stateAddWindow',
+	export const statePopupWindow = createSlice({
+	name: 'statePopupWindow',
 	initialState,
 	reducers: {
-		showAddFilm(state, action) {
-			state.addFilmWindow = action.payload;
+		showFilmAdd(state, action) {
+			state.filmAddWindow = action.payload;
 		},
-		showAddCinema(state, action) {
-			state.addCinemaWindow = action.payload;
+		showCinemaAdd(state, action) {
+			state.cinemaAddWindow = action.payload;
 		},
-		showAddFranchisee(state, action) {
-			state.addFranchiseeWindow = action.payload;
+		showFranchiseeAdd(state, action) {
+			state.franchiseeAddWindow = action.payload;
+		},
+		showFilmEdit(state, action) {
+			state.filmEditWindow = action.payload;
+		},
+		showCinemaEdit(state, action) {
+			state.cinemaEditWindow = action.payload;
+		},
+		showFranchiseeEdit(state, action) {
+			state.franchiseeEditWindow = action.payload;
+		},
+		showFilmInfo(state, action) {
+			state.filmInfoWindow = action.payload;
+		},
+		showCinemaInfo(state, action) {
+			state.cinemaInfoWindow = action.payload;
+		},
+		showFranchiseeInfo(state, action) {
+			state.franchiseeInfoWindow = action.payload;
 		},
 	},
 })
 
-export const { showAddFilm, showAddCinema, showAddFranchisee } = stateAddWindow.actions
+export const { showFilmAdd, showCinemaAdd, showFranchiseeAdd,
+	showFilmEdit, showCinemaEdit, showFranchiseeEdit,
+	showFilmInfo, showCinemaInfo, showFranchiseeInfo } = statePopupWindow.actions
 
-export default stateAddWindow.reducer
+export default statePopupWindow.reducer

@@ -1,11 +1,12 @@
-import style from './style.module.scss';
-import cn from 'classnames'
+// import style from './style.module.scss';
+// import cn from 'classnames'
 
-export default function AddFilm({className, children, onClick}) {
-	return (
-		<button className={cn(style.addButton, 'icon_add', className)}
-				onClick={onClick}>
-			{children}
-		</button>
-	);
-}
+// export default function AddButton({className, children, onClick, isDisabled}) {
+// 	return (
+// 		<button className={cn(style.addButton, 'icon_add', className)}
+// 				disabled={isDisabled}
+// 				onClick={onClick}>
+// 			{children}
+// 		</button>
+// 	);
+// }

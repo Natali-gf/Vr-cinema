@@ -17,6 +17,7 @@ $textBlue: #10A5FF;
 $textGrey: #474747;
 $textDark: #313131;
 $textWhite: #FFFFFF;
+$textRed: #CB3C3C;
 
 //stroke colors (input, button, focus, hover)
 $strokeBlue: #10A5FF;
@@ -38,7 +39,7 @@ $shadowSidebar: 2px 0px 24px rgba(0, 0, 0, 0.08);
 $shadowMainArea: 2px 7px 24px rgba(0, 0, 0, 0.04);
 $shadowSecondArea: 0 4px 10px rgba(0, 0, 0, 0.1);
 
-@mixin width-height($width, $height: &width){
+@mixin width-height($width, $height: $width){
 	width: $width;
 	height: $height;
 }
@@ -61,6 +62,11 @@ $shadowSecondArea: 0 4px 10px rgba(0, 0, 0, 0.1);
 %textSize_button2 {
 	font-size: 15px;
 	line-height: 22.5px;
+	font-weight: 500;
+}
+%textSize_caption3 {
+	font-size: 14px;
+	line-height: 21px;
 	font-weight: 500;
 }
 %textSize_caption2 {
@@ -127,6 +133,9 @@ $shadowSecondArea: 0 4px 10px rgba(0, 0, 0, 0.1);
 	}
 	@if $textName == caption2 {
 		@extend %textSize_caption2;
+	}
+	@if $textName == caption3 {
+		@extend %textSize_caption3;
 	}
 	@if $textName == body {
 		@extend %textSize_body;

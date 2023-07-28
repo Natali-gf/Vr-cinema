@@ -1,22 +1,37 @@
 import style from './style.module.scss';
 import loadingImg from '../../assets/icons/loading.svg';
-import FilmMenu from '../FilmMenu/FilmMenu';
+import DetailMenu from '../DetailMenu/DetailMenu';
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import cn from 'classnames';
-import { allFranchisee } from '../../store/slices/franchiseeSlice';
-import { fetchFranchisee } from '../../store/actions/franchiseeAction';
+import { getFranchiseeRequest } from '../../store/actions/franchiseeAction';
+import { setSearchValue } from '../../store/slices/searchSlice';
 
-const tableHeaders = ['Тип', 'Наименование', 'Логин', '№ договора', 'ИНН', 'КПП', 'Адрес', 'ОГРН', 'ОГРНИП', 'Банк', 'Номер счета', 'БИК', '',]
+const tableHeaders = ['', 'Тип', 'Наименование', 'Логин', '№ договора', 'ИНН', 'Адрес', '',]
 
 function FranchiseeTable({className}) {
 	const dispatch = useDispatch();
-	const {franchisee, loading} = useSelector(allFranchisee);
+	const { franchisee, loadingPage } = useSelector(state => state.franchisee);
 	const { searchValue } = useSelector(state => state.search);
+	const {	filtered, sorted, filterVisible } = useSelector(state => state.filterFranchisee);
+	let customFranchisee = franchisee;
 
 	useEffect(() => {
-		dispatch(fetchFranchisee())
+		dispatch(getFranchiseeRequest())
+		return () => {
+			dispatch(setSearchValue(''))
+		}
     }, []);
+
+	// check filters
+	(function(){
+		if(filtered != 'initialState'){
+				if (sorted != 'initialState')
+					{customFranchisee = sorted.filter((sort) => filtered.some((filter) => filter ===sort)) }
+				else { customFranchisee = filtered }}
+		else if(sorted != 'initialState')
+				{ customFranchisee = sorted }
+	}());
 
 	return (
 		<>
@@ -29,13 +44,16 @@ function FranchiseeTable({className}) {
 							</th>))}
 					</tr>
 				</thead>
-				{!loading && <tbody className={cn(style.table__body)}>
-					{franchisee.filter( item =>
-						(item.name.toLowerCase()).includes(searchValue.toLowerCase()))
+				{!loadingPage && <tbody className={cn(style.table__body)}
+					style={filterVisible ? {height: 'calc(100vh - 477px)'}:{height: 'calc(100vh - 279px)'}}>
+					{customFranchisee
+						.filter( item => {
+							return item.name.toLowerCase().includes(searchValue.toLowerCase()) || (item.number_contract.toString()).includes(searchValue)})
 							.map( (item, index) => (
 						<tr className={cn(style.table__row, style.table__franchisee)} key={index + Math.random()}>
+							<td className={style.table__column}></td>
 							<td className={style.table__column}>
-								{item.type}
+								{item.ownership}
 							</td>
 							<td className={style.table__column}>
 								{item.name}
@@ -50,34 +68,19 @@ function FranchiseeTable({className}) {
 								{item.inn}
 							</td>
 							<td className={style.table__column}>
-								{item.kpp_bank}
-							</td>
-							<td className={style.table__column}>
 								{item.address}
 							</td>
 							<td className={style.table__column}>
-								{item.ogrn}
-							</td>
-							<td className={style.table__column}>
-								{item.ogrnip}
-							</td>
-							<td className={style.table__column}>
-								{item.bank_name}
-							</td>
-							<td className={style.table__column}>
-								{item.bank_account_number}
-							</td>
-							<td className={style.table__column}>
-								{item.bik_bank}
-							</td>
-							<td className={style.table__column}>
-								<FilmMenu className={style.table__menu}/>
+								<DetailMenu className={style.table__menu}
+									// isPublished={item.is_active}
+									elemId={item.id}
+									typeDetail={'franchisee'}/>
 							</td>
 						</tr>
 					))}
 				</tbody>}
 			</table>
-			{loading &&
+			{loadingPage &&
 				<img className={style.loading} src={loadingImg} alt={'Загрузка'} />}
 		</>
 	);
