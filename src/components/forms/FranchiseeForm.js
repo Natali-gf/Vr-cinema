@@ -208,6 +208,9 @@ function FranchiseeForm ({className, franchiseeId, modeInfo, buttonName}) {
 								watch={ogrnWatch}
 								register={register}
 								validation={{
+									pattern: {
+										value: /^\d+$/,
+										message: 'Недопустимый формат ввода'},
 									maxLength: {
 										value: 13,
 										message: 'ОГРН должен состоять из 13 цифр / Неверный ОГРН'},
@@ -233,6 +236,9 @@ function FranchiseeForm ({className, franchiseeId, modeInfo, buttonName}) {
 								watch={ogrnipWatch}
 								register={register}
 								validation={{
+									pattern: {
+										value: /^\d+$/,
+										message: 'Недопустимый формат ввода'},
 									minLength: {
 										value: 15,
 										message: 'ОГРНИП должен состоять из 15 цифр / Неверный ОГРНИП'},
@@ -257,6 +263,9 @@ function FranchiseeForm ({className, franchiseeId, modeInfo, buttonName}) {
 								watch={innWatch}
 								register={register}
 								validation={{
+									pattern: {
+										value: /^\d+$/,
+										message: 'Недопустимый формат ввода'},
 									minLength: {
 										value: 10,
 										message: 'ИНН должен состоять из 10 или 12 цифр / Неверный ИНН'},
@@ -281,6 +290,9 @@ function FranchiseeForm ({className, franchiseeId, modeInfo, buttonName}) {
 								watch={kppBankWatch}
 								register={register}
 								validation={{
+									pattern: {
+										value: /^\d+$/,
+										message: 'Недопустимый формат ввода'},
 									minLength: {
 										value: 9,
 										message: 'КПП должен состоять из 10 или 12 цифр / Неверный КПП'},
@@ -340,6 +352,9 @@ function FranchiseeForm ({className, franchiseeId, modeInfo, buttonName}) {
 								watch={bankAccountNumberWatch}
 								register={register}
 								validation={{
+									pattern: {
+										value: /^\d+$/,
+										message: 'Недопустимый формат ввода'},
 									maxLength: {
 										value: 20,
 										message: 'Максимум 20 цифр'}
@@ -361,6 +376,9 @@ function FranchiseeForm ({className, franchiseeId, modeInfo, buttonName}) {
 								watch={bikBankWatch}
 								register={register}
 								validation={{
+									pattern: {
+										value: /^\d+$/,
+										message: 'Недопустимый формат ввода'},
 									minLength: {
 										value: 9,
 										message: 'БИК должен состоять из 9 или 12 цифр / Неверный БИК'},

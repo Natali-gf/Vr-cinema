@@ -9,11 +9,11 @@ import { deleteCategoryRequest, getCategoryRequest, postCategoryRequest, putCate
 import { deleteLanguageRequest, getLanguageRequest, postLanguageRequest, putLanguageRequest } from '../../store/actions/languageActions';
 import { deleteTypeCinemaRequest, getTypeCinemaRequest, postTypeCinemaRequest, putTypeCinemaRequest } from '../../store/actions/typeCinemaActions';
 import { deleteCityRequest, getCityRequest, postCityRequest, putCityRequest } from '../../store/actions/cityActions';
-import { fetchError as fetchErrorTypeCinema} from '../../store/slices/typeCinemaSlice';
-import { fetchError as fetchErrorLanguage } from '../../store/slices/languageSlice';
-import { fetchError as fetchErrorCategory } from '../../store/slices/categorySlice';
-import { fetchError as fetchErrorCopyright } from '../../store/slices/copyrightSlice';
-import { fetchError as fetchErrorCity } from '../../store/slices/citySlice';
+import { fetchErrorMessage as fetchErrorTypeCinema} from '../../store/slices/typeCinemaSlice';
+import { fetchErrorMessage as fetchErrorLanguage } from '../../store/slices/languageSlice';
+import { fetchErrorMessage as fetchErrorCategory } from '../../store/slices/categorySlice';
+import { fetchErrorMessage as fetchErrorCopyright } from '../../store/slices/copyrightSlice';
+import { fetchErrorMessage as fetchErrorCity } from '../../store/slices/citySlice';
 
 function Handbooks({className, title, list}) {
 	const dispatch = useDispatch();
@@ -121,8 +121,9 @@ function Handbooks({className, title, list}) {
 			<div className={cn(s.handbooks, className)}>
 				<div className={s.handbooks__container}>
 					{handbooksParams.filter( item => (item.title.toLowerCase()).includes(searchValue.toLowerCase()))
-					.map(item => (
-						<Handbook className={s.handbooks__item}
+					.map((item, index) => (
+						<Handbook key={`key${index}`}
+							className={s.handbooks__item}
 							title={item.title}
 							buttonName={item.buttonName}
 							name={item.name}

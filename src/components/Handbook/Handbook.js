@@ -1,5 +1,3 @@
-import AddButton from '../ui/AddButton/AddButton';
-import Checkbox from '../ui/Checkbox/Checkbox';
 import MainButton from '../ui/MainButton/MainButton';
 import s from './style.module.scss';
 import style from '../forms/style.module.scss';
@@ -11,7 +9,6 @@ import React from 'react';
 import { useDispatch } from 'react-redux';
 import { useForm } from 'react-hook-form';
 import Radio from '../ui/Radio/Radio';
-import { deleteCategoryRequest } from '../../store/actions/categoryActions';
 
 function Handbook({title, list, buttonName, errorView, postRequest, putRequest, deleteRequest, name, loading, fetchError, isDisabled}) {
 	const dispatch = useDispatch();
@@ -25,7 +22,7 @@ function Handbook({title, list, buttonName, errorView, postRequest, putRequest, 
 	const nameWatch = watch('name');
 
 	React.useEffect(() =>{
-		if (errorView){
+		if (errorView && errorView.name){
 			dispatch(fetchError(''));
 		}
 	}, [isValidating]);
@@ -115,7 +112,8 @@ function Handbook({title, list, buttonName, errorView, postRequest, putRequest, 
 						</ul>
 					</div>
 					<form className={s.handbook__form}
-						onSubmit={handleSubmit(onSubmit)}>
+						onSubmit={handleSubmit(onSubmit)}
+						onKeyDown={(e) => {if (e.key === 'Enter') e.preventDefault()}}>
 							<div className={s.handbook__field}>
 							{(input || option === 'edit') &&
 								<Input className={s.handbook__input}
@@ -123,16 +121,12 @@ function Handbook({title, list, buttonName, errorView, postRequest, putRequest, 
 									placeholder={'Введите наименование...'}
 									nameField={'name'}
 									defaultValue={elemName}
-									// isDisabled={modeInfo}
-									onKeyDown={(e) => {if (e.key === 'Enter') {
-										handleSubmit(onSubmit)
-										console.dir(e)
-									}}}
 									setValue={setValue}
 									watch={nameWatch}
 									register={register}
 									validation={{ required: true,
-										maxLength: 100 }} />}
+										maxLength: 100 }}
+										 />}
 								{(errors.name || (errorView && errorView.name)) &&
 									<div className={cn(style.form__error_message, s.handbook__error)}>
 										{!errors.name ?
@@ -144,7 +138,6 @@ function Handbook({title, list, buttonName, errorView, postRequest, putRequest, 
 								option === 'edit' ? 'Сохранить изменения' :
 								option === 'delete' ? `Удалить ${buttonName}` : ''}
 							isDisabled={isDisabled}
-							// onClick={addItem}
 							type={'submit'}/>
 					</form>
 				</div>

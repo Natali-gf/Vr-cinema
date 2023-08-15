@@ -1,7 +1,7 @@
 import api from "../../api/axios";
-import { fetching, fetchSuccess, fetchError } from '../slices/citySlice';
+import { fetching, fetchSuccess, fetchError, fetchErrorMessage } from '../slices/citySlice';
 import { sortByName } from '../../helpers/helpers';
-import { setNotificationText, showNotification } from "../slices/notification";
+import { setNotificationText, showErrorNotification, showNotification } from "../slices/notification";
 import axios from "axios";
 
 export const getCityRequest = () => {
@@ -10,9 +10,10 @@ export const getCityRequest = () => {
             dispatch(fetching());
             const response = await api.get('/city/')
             dispatch(fetchSuccess( response.data.sort(sortByName) ))
-        } catch (e) {
-            dispatch(fetchError(e))
-			console.log('error');
+        } catch (message) {
+            console.log('error', message)
+            dispatch(fetchError(message.message));
+            dispatch(showErrorNotification(true));
         }
     }
 }
@@ -21,7 +22,7 @@ export async function postCityRequest (dispatch, data) {
     dispatch(fetching());
     const result = await api.post(`/city/`, JSON.stringify(data))
         .then((response) => {
-            console.log(response);
+            console.log('response', response);
             dispatch(getCityRequest());
             dispatch(showNotification(true));
 			dispatch(setNotificationText('Город добавлен'));
@@ -31,8 +32,13 @@ export async function postCityRequest (dispatch, data) {
             return response;
         })
         .catch((message) => {
-            dispatch(fetchError(message.response.data));
-            console.log(message)
+            console.log('error', message);
+            if(typeof message.response.data === 'object'){
+                dispatch(fetchErrorMessage(message.response.data));
+            } else {
+                dispatch(fetchError(message.message));
+                dispatch(showErrorNotification(true))
+            }
         })
     return result;
 }
@@ -41,7 +47,7 @@ export async function putCityRequest (dispatch, data, cityId) {
     dispatch(fetching());
     const result = await api.put(`/city/${cityId}/`, JSON.stringify(data))
         .then((response) => {
-            console.log(response);
+            console.log('response', response);
             dispatch(getCityRequest());
             dispatch(showNotification(true));
 			dispatch(setNotificationText('Изменения сохранены'))
@@ -51,8 +57,13 @@ export async function putCityRequest (dispatch, data, cityId) {
             return response;
         })
         .catch((message) => {
-            dispatch(fetchError(message.response.data));
-            console.log(message)
+            console.log('error', message);
+            if(typeof message.response.data === 'object'){
+                dispatch(fetchErrorMessage(message.response.data));
+            } else {
+                dispatch(fetchError(message.message));
+                dispatch(showErrorNotification(true))
+            }
         })
     return result;
 }
@@ -61,7 +72,7 @@ export async function deleteCityRequest (dispatch, cityId) {
     dispatch(fetching());
     const result = await api.delete(`/city/${cityId}/`)
         .then((response) => {
-            console.log(response);
+            console.log('response', response);
             dispatch(getCityRequest());
             dispatch(showNotification(true));
 			dispatch(setNotificationText('Город удалён'))
@@ -71,8 +82,13 @@ export async function deleteCityRequest (dispatch, cityId) {
             return response;
         })
         .catch((message) => {
-            dispatch(fetchError(message.response.data));
-            console.log(message)
+            console.log('error', message);
+            if(typeof message.response.data === 'object'){
+                dispatch(fetchErrorMessage(message.response.data));
+            } else {
+                dispatch(fetchError(message.message));
+                dispatch(showErrorNotification(true))
+            }
         })
     return result;
 }

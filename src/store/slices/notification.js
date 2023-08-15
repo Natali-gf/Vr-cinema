@@ -3,6 +3,8 @@ import { createSlice } from '@reduxjs/toolkit'
 const initialState = {
 	notificationText: '',
 	notificationVisible: false,
+	errorNotificationText: '',
+	errorNotificationVisible: false,
 }
 
 	export const notificationSlice = createSlice({
@@ -15,9 +17,16 @@ const initialState = {
         showNotification(state, action){
             state.notificationVisible = action.payload
         },
+		setErrorNotificationText(state, action) {
+			state.errorNotificationText = action.payload;
+		},
+        showErrorNotification(state, action){
+            state.errorNotificationVisible = action.payload
+        },
 	},
 })
 
-export const { setNotificationText, showNotification } = notificationSlice.actions
+export const { setNotificationText, showNotification,
+	setErrorNotificationText, showErrorNotification } = notificationSlice.actions
 
 export default notificationSlice.reducer

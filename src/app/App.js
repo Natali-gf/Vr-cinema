@@ -5,7 +5,6 @@ import FilmCatalog from '../pages/FilmCatalog';
 import CinemaCatalog from '../pages/CinemaCatalog';
 import FranchiseeCatalog from '../pages/FranchiseeCatalog';
 import HandbookCatalog from '../pages/HandbookCatalog';
-import ContentSection from '../pages/ContentSection';
 
 function App() {
 	return (
@@ -18,7 +17,6 @@ function App() {
 				<Route path='/franchisee' element={<FranchiseeCatalog/>} />
 				<Route path='/handbook' element={<HandbookCatalog/>} />
 			</Routes>
-			{/* <ContentSection /> */}
 		</div>
 	);
 }

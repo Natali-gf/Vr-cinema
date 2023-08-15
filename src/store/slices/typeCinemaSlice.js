@@ -2,11 +2,9 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
     loading: false,
-    // loadingCurrent: false,
     error: '',
     typeCinema: [],
     errorView: '',
-    // typeCinemaId: '',
 }
 
 export const typeCinemaSlice = createSlice({
@@ -22,24 +20,15 @@ export const typeCinemaSlice = createSlice({
         },
         fetchError: (state, action) => {
             state.loading = false
-            state.error = action.payload.message;
+            state.error = action.payload;
+        },
+        fetchErrorMessage: (state, action) => {
+            state.loading = false;
             state.errorView = action.payload;
         },
-        // fetchingCurrentTypeCinema: (state) => {
-        //     state.loadingCurrent = true
-        // },
-        // fetchCurrentTypeCinemaSuccess: (state, action) => {
-        //     state.loadingCurrent = false;
-        //     state.typeCinema = action.payload
-        // },
-        // setTypeCinemaId: (state, action) => {
-        //     state.typeCinemaId = action.payload
-        // },
     }
 })
 
-export const { fetching, fetchSuccess, fetchError,
-    fetchingCurrentTypeCinema, fetchCurrentTypeCinemaSuccess, setTypeCinemaId
-} = typeCinemaSlice.actions;
+export const { fetching, fetchSuccess, fetchError, fetchErrorMessage } = typeCinemaSlice.actions;
 
 export default typeCinemaSlice.reducer;

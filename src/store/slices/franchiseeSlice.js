@@ -24,7 +24,11 @@ export const franchiseeSlice = createSlice({
         fetchError: (state, action) => {
             state.loadingPage = false;
             state.loadingWindow = false;
-            state.error = action.payload.message;
+            state.error = action.payload;
+        },
+        fetchErrorMessage: (state, action) => {
+            state.loadingPage = false;
+            state.loadingWindow = false;
             state.errorView = action.payload;
         },
         fetchingCurrentFranchisee: (state) => {
@@ -43,7 +47,7 @@ export const franchiseeSlice = createSlice({
     }
 })
 
-export const { fetching, fetchSuccess, fetchError,
+export const { fetching, fetchSuccess, fetchError, fetchErrorMessage,
     fetchingCurrentFranchisee, fetchCurrentFranchiseeSuccess,
     setFranchiseeId, clearFranchiseeData  } = franchiseeSlice.actions;
 

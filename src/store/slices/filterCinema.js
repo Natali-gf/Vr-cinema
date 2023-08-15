@@ -67,7 +67,7 @@ const initialState = {
 			state.activeSort = action.payload;
 		},
 		showClearBtnSort(state, action){
-			state.activeFilter = action.payload;
+			state.clearBtnSort = action.payload;
 		},
 	},
 })

@@ -90,7 +90,7 @@ function FilmForm({className, filmId, modeInfo, buttonName, classButton}) {
 			if(img && filmData.imagine !== null){
 				console.log(1)
 				formImage.image = img;
-				await putImageRequest(formImage, filmData.imagine.id)
+				await putImageRequest(dispatch, formImage, filmData.imagine.id)
 					.then(response => {
 						form.imagine = response.id;
 						putFilmRequest(dispatch, form, filmId);
@@ -99,7 +99,7 @@ function FilmForm({className, filmId, modeInfo, buttonName, classButton}) {
 			} else if(img && filmData.imagine === null){
 				console.log(2)
 				formImage.image = img;
-				await postImageRequest(formImage)
+				await postImageRequest(dispatch, formImage)
 					.then(response => {
 						form.imagine = response.id;
 						putFilmRequest(dispatch, form, filmId);
@@ -119,7 +119,7 @@ function FilmForm({className, filmId, modeInfo, buttonName, classButton}) {
 		} else {
 			if(img){
 				formImage.image = img
-				await postImageRequest(formImage)
+				await postImageRequest(dispatch, formImage)
 					.then(response => {
 						form.imagine = response.id;
 						postFilmRequest(dispatch, form);

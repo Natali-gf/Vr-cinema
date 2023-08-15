@@ -1,7 +1,7 @@
 import api from "../../api/axios";
-import { fetching, fetchSuccess, fetchError } from '../slices/categorySlice';
+import { fetching, fetchSuccess, fetchError, fetchErrorMessage } from '../slices/categorySlice';
 import { sortByName } from '../../helpers/helpers';
-import { setNotificationText, showNotification } from "../slices/notification";
+import { setNotificationText, showNotification, showErrorNotification } from "../slices/notification";
 
 export const getCategoryRequest = () => {
     return async (dispatch) => {
@@ -9,9 +9,10 @@ export const getCategoryRequest = () => {
             dispatch(fetching());
             const response = await api.get('/category/')
             dispatch(fetchSuccess( response.data.sort(sortByName) ))
-        } catch (e) {
-            dispatch(fetchError(e))
-			console.log('error', e);
+        } catch (message) {
+            console.log('error', message);
+            dispatch(fetchError(message.message));
+            dispatch(showErrorNotification(true));
         }
     }
 }
@@ -20,7 +21,7 @@ export async function postCategoryRequest (dispatch, data) {
     dispatch(fetching());
     const result = await api.post(`/category/`, JSON.stringify(data))
         .then((response) => {
-            console.log(response);
+            console.log('response', response);
             dispatch(getCategoryRequest());
             dispatch(showNotification(true));
 			dispatch(setNotificationText('Жанр добавлен'));
@@ -30,8 +31,13 @@ export async function postCategoryRequest (dispatch, data) {
             return response;
         })
         .catch((message) => {
-            dispatch(fetchError(message.response.data));
-            console.log(message)
+            console.log('error', message);
+            if(typeof message.response.data === 'object'){
+                dispatch(fetchErrorMessage(message.response.data));
+            } else {
+                dispatch(fetchError(message.message));
+                dispatch(showErrorNotification(true))
+            }
         })
     return result;
 }
@@ -40,7 +46,7 @@ export async function putCategoryRequest (dispatch, data, сategoryId) {
     dispatch(fetching());
     const result = await api.put(`/category/${сategoryId}/`, JSON.stringify(data))
         .then((response) => {
-            console.log(response);
+            console.log('response', response);
             dispatch(getCategoryRequest());
             dispatch(showNotification(true));
 			dispatch(setNotificationText('Изменения сохранены'))
@@ -50,8 +56,13 @@ export async function putCategoryRequest (dispatch, data, сategoryId) {
             return response;
         })
         .catch((message) => {
-            dispatch(fetchError(message.response.data));
-            console.log(message)
+            console.log('error', message);
+            if(typeof message.response.data === 'object'){
+                dispatch(fetchErrorMessage(message.response.data));
+            } else {
+                dispatch(fetchError(message.message));
+                dispatch(showErrorNotification(true))
+            }
         })
     return result;
 }
@@ -60,7 +71,7 @@ export async function deleteCategoryRequest (dispatch, сategoryId) {
     dispatch(fetching());
     const result = await api.delete(`/category/${сategoryId}/`)
         .then((response) => {
-            console.log(response);
+            console.log('response', response);
             dispatch(getCategoryRequest());
             dispatch(showNotification(true));
 			dispatch(setNotificationText('Жанр удалён'))
@@ -70,8 +81,13 @@ export async function deleteCategoryRequest (dispatch, сategoryId) {
             return response;
         })
         .catch((message) => {
-            dispatch(fetchError(message.response.data));
-            console.log(message)
+            console.log('error', message);
+            if(typeof message.response.data === 'object'){
+                dispatch(fetchErrorMessage(message.response.data));
+            } else {
+                dispatch(fetchError(message.message));
+                dispatch(showErrorNotification(true))
+            }
         })
     return result;
 }

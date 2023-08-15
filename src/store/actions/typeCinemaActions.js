@@ -1,7 +1,7 @@
 import api from "../../api/axios";
-import { fetching, fetchSuccess, fetchError } from '../slices/typeCinemaSlice';
+import { fetching, fetchSuccess, fetchError, fetchErrorMessage } from '../slices/typeCinemaSlice';
 import { sortByName } from '../../helpers/helpers';
-import { setNotificationText, showNotification } from "../slices/notification";
+import { setNotificationText, showErrorNotification, showNotification } from "../slices/notification";
 
 export const getTypeCinemaRequest = () => {
     return async (dispatch) => {
@@ -9,9 +9,10 @@ export const getTypeCinemaRequest = () => {
             dispatch(fetching());
             const response = await api.get('/type_cinema/')
             dispatch(fetchSuccess( response.data.sort(sortByName) ))
-        } catch (e) {
-            dispatch(fetchError(e))
-			console.log('error');
+        } catch (message) {
+            console.log('error', message);
+            dispatch(fetchError(message.message));
+            dispatch(showErrorNotification(true));
         }
     }
 }
@@ -30,8 +31,13 @@ export async function postTypeCinemaRequest (dispatch, data) {
             return response;
         })
         .catch((message) => {
-            dispatch(fetchError(message.response.data));
-            console.log(message)
+            console.log('error', message);
+            if(typeof message.response.data === 'object'){
+                dispatch(fetchErrorMessage(message.response.data));
+            } else {
+                dispatch(fetchError(message.message));
+                dispatch(showErrorNotification(true))
+            }
         })
     return result;
 }
@@ -50,8 +56,13 @@ export async function putTypeCinemaRequest (dispatch, data, typeCinemaId) {
             return response;
         })
         .catch((message) => {
-            dispatch(fetchError(message.response.data));
-            console.log(message)
+            console.log('error', message);
+            if(typeof message.response.data === 'object'){
+                dispatch(fetchErrorMessage(message.response.data));
+            } else {
+                dispatch(fetchError(message.message));
+                dispatch(showErrorNotification(true))
+            }
         })
     return result;
 }
@@ -70,8 +81,13 @@ export async function deleteTypeCinemaRequest (dispatch, typeCinemaId) {
             return response;
         })
         .catch((message) => {
-            dispatch(fetchError(message.response.data));
-            console.log(message)
+            console.log('error', message);
+            if(typeof message.response.data === 'object'){
+                dispatch(fetchErrorMessage(message.response.data));
+            } else {
+                dispatch(fetchError(message.message));
+                dispatch(showErrorNotification(true))
+            }
         })
     return result;
 }

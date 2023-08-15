@@ -1,7 +1,7 @@
 import api from "../../api/axios";
-import { fetching, fetchSuccess, fetchError } from '../slices/copyrightSlice';
+import { fetching, fetchSuccess, fetchError, fetchErrorMessage } from '../slices/copyrightSlice';
 import { sortByName } from '../../helpers/helpers';
-import { setNotificationText, showNotification } from "../slices/notification";
+import { setNotificationText, showErrorNotification, showNotification } from "../slices/notification";
 
 export const getCopyrightRequest = () => {
     return async (dispatch) => {
@@ -9,9 +9,10 @@ export const getCopyrightRequest = () => {
             dispatch(fetching());
             const response = await api.get('/copyright_holder/')
             dispatch(fetchSuccess( response.data.sort(sortByName) ))
-        } catch (e) {
-            dispatch(fetchError(e))
-			console.log('error');
+        } catch (message) {
+            console.log('error', message)
+            dispatch(fetchError(message.message));
+            dispatch(showErrorNotification(true));
         }
     }
 }
@@ -20,7 +21,7 @@ export async function postCopyrightRequest (dispatch, data) {
     dispatch(fetching());
     const result = await api.post(`/copyright_holder/`, JSON.stringify(data))
         .then((response) => {
-            console.log(response);
+            console.log('response', response);
             dispatch(getCopyrightRequest());
             dispatch(showNotification(true));
 			dispatch(setNotificationText('Студия добавлена'));
@@ -30,8 +31,13 @@ export async function postCopyrightRequest (dispatch, data) {
             return response;
         })
         .catch((message) => {
-            dispatch(fetchError(message.response.data));
-            console.log(message)
+            console.log('error', message);
+            if(typeof message.response.data === 'object'){
+                dispatch(fetchErrorMessage(message.response.data));
+            } else {
+                dispatch(fetchError(message.message));
+                dispatch(showErrorNotification(true))
+            }
         })
     return result;
 }
@@ -40,7 +46,7 @@ export async function putCopyrightRequest (dispatch, data, copyrightId) {
     dispatch(fetching());
     const result = await api.put(`/copyright_holder/${copyrightId}/`, JSON.stringify(data))
         .then((response) => {
-            console.log(response);
+            console.log('response', response);
             dispatch(getCopyrightRequest());
             dispatch(showNotification(true));
 			dispatch(setNotificationText('Изменения сохранены'))
@@ -50,8 +56,13 @@ export async function putCopyrightRequest (dispatch, data, copyrightId) {
             return response;
         })
         .catch((message) => {
-            dispatch(fetchError(message.response.data));
-            console.log(message)
+            console.log('error', message);
+            if(typeof message.response.data === 'object'){
+                dispatch(fetchErrorMessage(message.response.data));
+            } else {
+                dispatch(fetchError(message.message));
+                dispatch(showErrorNotification(true))
+            }
         })
     return result;
 }
@@ -60,7 +71,7 @@ export async function deleteCopyrightRequest (dispatch, copyrightId) {
     dispatch(fetching());
     const result = await api.delete(`/copyright_holder/${copyrightId}/`)
         .then((response) => {
-            console.log(response);
+            console.log('response', response);
             dispatch(getCopyrightRequest());
             dispatch(showNotification(true));
 			dispatch(setNotificationText('Студия удалена'))
@@ -70,8 +81,13 @@ export async function deleteCopyrightRequest (dispatch, copyrightId) {
             return response;
         })
         .catch((message) => {
-            dispatch(fetchError(message.response.data));
-            console.log(message)
+            console.log('error', message);
+            if(typeof message.response.data === 'object'){
+                dispatch(fetchErrorMessage(message.response.data));
+            } else {
+                dispatch(fetchError(message.message));
+                dispatch(showErrorNotification(true))
+            }
         })
     return result;
 }

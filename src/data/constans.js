@@ -9,13 +9,6 @@ export const age = [
 	{ value: '18+', label: '18+' }
 ];
 
-// export const lang = [
-// 	{ value: 'rus', label: 'rus' },
-// 	{ value: 'eng', label: 'Eng' },
-// 	{ value: 'rus/eng', label: 'Rus/Eng' },
-// 	{ value: 'Без озвучки', label: 'Без озвучки' },
-// ];
-
 export const sortBy = [
 	{name: 'Алфавиту'},
 	{name: 'Дате добавления'},
@@ -23,7 +16,14 @@ export const sortBy = [
 	{name: 'Времени'}
 ];
 export const sortData = ['Алфавиту', 'Дате добавления', 'Году создания', 'Времени'];
-
+export const cinemaSortBy = [
+	{name: 'Названию'},
+	{name: 'Франчайзи'},
+];
+export const franchiseeSortBy = [
+	{name: 'Наименованию'},
+	{name: 'Логину'},
+];
 // export const cinemaType = [
 // 	{ value: 'family', label: 'Семейный' },
 // 	{ value: 'flagman', label: 'Флагман' },

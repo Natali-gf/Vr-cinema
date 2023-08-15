@@ -4,6 +4,7 @@
 	@include width-height(83.125%, 100vh);
 	min-width: 975px;
 	&__container {
+		position: relative;
 		@include flex-grid(flex, column, null, center);
 		padding: 0 20px;
 		// height: 100vh;

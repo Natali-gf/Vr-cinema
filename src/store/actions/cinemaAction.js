@@ -1,8 +1,8 @@
 import axios from 'axios';
 import api from "../../api/axios";
-import { fetching, fetchSuccess, fetchError, fetchingCurrentCinema, fetchCurrentCinemaSuccess } from '../slices/cinemaSlice';
+import { fetching, fetchSuccess, fetchError, fetchingCurrentCinema, fetchCurrentCinemaSuccess, fetchErrorMessage } from '../slices/cinemaSlice';
 import { showCinemaAdd, showCinemaEdit } from '../slices/windowStateSlice';
-import { setNotificationText, showNotification } from '../slices/notification';
+import { setNotificationText, showErrorNotification, showNotification } from '../slices/notification';
 
 export const getCinemaRequest = () => {
     return async (dispatch) => {
@@ -10,8 +10,10 @@ export const getCinemaRequest = () => {
             dispatch(fetching());
             const response = await api.get('/cinema/');
             dispatch(fetchSuccess( response.data ));
-        } catch (e) {
-            dispatch(fetchError(e))
+        } catch (message) {
+            console.log('error', message);
+            dispatch(fetchError(message.message));
+            dispatch(showErrorNotification(true));
         }
     }
 }
@@ -24,14 +26,16 @@ export const getCurrentCinemaRequest = (cinemaId) => {
             dispatch(fetchCurrentCinemaSuccess( response.data ));
 
 			return response;
-        } catch (e) {
-            dispatch(fetchError(e));
+        } catch (message) {
+            console.log('error', message);
+            dispatch(fetchError(message.message));
+            dispatch(showErrorNotification(true));
         }
     }
 }
 
 export async function postCinemaRequest (dispatch, data) {
-	dispatch(fetching());
+	// dispatch(fetching());
     const result = await api.post(`/cinema/`, JSON.stringify(data))
         .then((response) => {
             console.log(response);
@@ -46,14 +50,19 @@ export async function postCinemaRequest (dispatch, data) {
             return response.data;
         })
         .catch((message) => {
-            dispatch(fetchError(message.response.data));
-            console.log(message)
+            console.log('error', message);
+            if(typeof message.response.data === 'object'){
+                dispatch(fetchErrorMessage(message.response.data));
+            } else {
+                dispatch(fetchError(message.message));
+                dispatch(showErrorNotification(true))
+            }
         })
     return result;
 }
 
 export async function putCinemaRequest (dispatch, data, cinemaId, state) {
-	dispatch(fetching());
+	// dispatch(fetching());
     const result = await api.put(`/cinema/${cinemaId}/`, JSON.stringify(data))
         .then((response) => {
             console.log(response);
@@ -73,8 +82,13 @@ export async function putCinemaRequest (dispatch, data, cinemaId, state) {
             return response.data;
         })
         .catch((message) => {
-            dispatch(fetchError(message.response.data));
-            console.log(message)
+            console.log('error', message);
+            if(typeof message.response.data === 'object'){
+                dispatch(fetchErrorMessage(message.response.data));
+            } else {
+                dispatch(fetchError(message.message));
+                dispatch(showErrorNotification(true))
+            }
         })
     return result;
 }

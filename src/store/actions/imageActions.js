@@ -1,26 +1,32 @@
 import api from "../../api/axios";
 import apiUploadFile from '../../api/axiosUploadFile';
+import { fetchError } from "../slices/imageSlice";
+import { showErrorNotification } from "../slices/notification";
 
-export async function postImageRequest (data) {
+export async function postImageRequest (dispatch, data) {
 	const result = await apiUploadFile.post(`/imagine/`, data)
 		.then((response) => {
-			console.log(response);
+			console.log('response', response);
 			return response.data;
 		})
 		.catch((message) => {
-			console.log(message);
+			console.log('error', message);
+			dispatch(fetchError(message.message));
+			dispatch(showErrorNotification(true));
 		})
 	return result;
 }
 
-export async function putImageRequest (data, imageId) {
+export async function putImageRequest (dispatch, data, imageId) {
 	const result = await apiUploadFile.put(`/imagine/${imageId}/`, data)
 		.then((response) => {
-			console.log(response);
+			console.log('response', response);
 			return response.data;
 		})
 		.catch((message) => {
-			console.log(message);
+			console.log('error', message);
+			dispatch(fetchError(message.message));
+			dispatch(showErrorNotification(true));
 		})
 	return result;
 }
@@ -28,11 +34,11 @@ export async function putImageRequest (data, imageId) {
 export async function deleteImageRequest (imageId) {
 	const result = await api.delete(`/imagine/${imageId}/`)
 		.then((response) => {
-			console.log(response);
+			console.log('response', response);
 			return response.data;
 		})
 		.catch((message) => {
-			console.log(message);
+			console.log('error', message);
 		})
 	return result;
 }

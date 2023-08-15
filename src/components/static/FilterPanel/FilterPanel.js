@@ -3,7 +3,9 @@ import FilterButton from '../../ui/FilterButton/FilterButton';
 import React, { useState, useRef } from 'react';
 import cn from 'classnames';
 import { useSelector, useDispatch } from 'react-redux';
-import Sort from '../../filters/filmFilters/Sort';
+import FilmSort from '../../filters/filmFilters/Sort';
+import CinemaSort from '../../filters/cinemaFilters/Sort';
+import FranchiseeSort from '../../filters/franchiseeFilters/Sort';
 
 function FilterPanel({className, buttonAdd, filterParams}) {
 	const dispatch = useDispatch();
@@ -27,9 +29,9 @@ function FilterPanel({className, buttonAdd, filterParams}) {
 	//sort menu
 	function showSortMenu(e) {
 		setSortListVisible(!sortListVisible);
-		if (e.target.value === 0 || filterParams.filterState.sort != '') {
+		if (e.target?.value === 0 || filterParams.filterState.sort != '') {
 			dispatch(filterParams.setActiveSort(true))
-			if(e.target.value === 0){
+			if(e.target?.value === 0){
 				dispatch(filterParams.setDescSort(true))
 				dispatch(filterParams.showClearBtnSort(true))
 			}
@@ -37,6 +39,14 @@ function FilterPanel({className, buttonAdd, filterParams}) {
 			dispatch(filterParams.setActiveSort(!filterParams.filterState.activeSort))
 		}
 	}
+
+	React.useEffect(() => {
+		return () => {
+			if(filterParams.filterState.activeSort && filterParams.filterState.sort == ''){
+				dispatch(filterParams.setActiveSort(false))
+			}
+		}
+    }, []);
 
 	//clear sort - behave button and remove state of sort in store to initial state
 	function onClickClearSort() {
@@ -65,6 +75,22 @@ function FilterPanel({className, buttonAdd, filterParams}) {
 		dispatch(filterParams.resetAllButton('reset'));
 	}
 
+	const Sort = () => {
+		return (
+			<>
+			{filterParams.filterName === 'film' &&
+				<FilmSort className={style.sortList}
+				setDesc={filterParams.setDescSort}/>}
+			{filterParams.filterName === 'cinema' &&
+				<CinemaSort className={style.sortList}
+				setDesc={filterParams.setDescSort}/>}
+			{filterParams.filterName === 'franchisee' &&
+				<FranchiseeSort className={style.sortList}
+				setDesc={filterParams.setDescSort}/>}
+			</>
+		)
+	}
+
 	return (
 		<>
 			<div className={cn(style.filterPanel, className)}>
@@ -75,8 +101,7 @@ function FilterPanel({className, buttonAdd, filterParams}) {
 						<FilterButton className={cn(style.sort__dropDownMenu, rotateArrow)}
 							onClick ={showSortMenu}>Сортировать по
 						{sortListVisible &&
-							<Sort className={style.sortList}
-								setDesc={filterParams.setDescSort} />}
+							<Sort />}
 						</FilterButton>
 						{filterParams.filterState.clearBtnSort &&
 							<div className={cn(style.sort__clear, 'icon_close')}

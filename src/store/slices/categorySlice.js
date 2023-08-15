@@ -21,16 +21,16 @@ export const categorySlice = createSlice({
         },
         fetchError: (state, action) => {
             state.loading = false;
-            state.error = action.payload.message;
-            state.errorView = action.payload;
+            state.error = action.payload;
         },
-        // setCategoryId: (state, action) => {
-        //     state.categoryId = action.payload
-        // },
+        fetchErrorMessage: (state, action) => {
+            state.loading = false;
+            state.errorView = action.payload;
+        }
     }
 })
 
-export const { fetching, fetchSuccess, fetchError } = categorySlice.actions
+export const { fetching, fetchSuccess, fetchError, fetchErrorMessage } = categorySlice.actions
 export const categories = (state) => state.category;
 
 export default categorySlice.reducer

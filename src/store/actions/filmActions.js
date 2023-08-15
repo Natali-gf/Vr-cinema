@@ -1,7 +1,7 @@
 import api from "../../api/axios";
-import { fetching, fetchSuccess, fetchError, fetchingCurrentFilm, fetchCurrentFilmSuccess } from '../slices/filmSlice';
+import { fetching, fetchSuccess, fetchError, fetchingCurrentFilm, fetchCurrentFilmSuccess, fetchErrorMessage } from '../slices/filmSlice';
 import { showFilmAdd, showFilmEdit } from '../slices/windowStateSlice';
-import { setNotificationText, showNotification } from '../slices/notification';
+import { setNotificationText, showErrorNotification, showNotification } from '../slices/notification';
 
 export const getFilmRequest = () => {
     return async (dispatch) => {
@@ -9,8 +9,10 @@ export const getFilmRequest = () => {
             dispatch(fetching());
             const response = await api.get('/films/');
             dispatch(fetchSuccess( response.data ));
-        } catch (e) {
-            dispatch(fetchError(e));
+        } catch (message) {
+            console.log('error', message)
+            dispatch(fetchError(message.message));
+            dispatch(showErrorNotification(true));
         }
     }
 }
@@ -23,17 +25,19 @@ export const getCurrentFilmRequest = (filmId) => {
             dispatch(fetchCurrentFilmSuccess( response.data ));
 
 			return response;
-        } catch (e) {
-            dispatch(fetchError(e));
+        } catch (message) {
+            console.log('error', message)
+            dispatch(fetchError(message.message));
+            dispatch(showErrorNotification(true));
         }
     }
 }
 
 export async function postFilmRequest (dispatch, data) {
-	dispatch(fetching());
+	// dispatch(fetching());
 	const result = await api.post(`/film_add/`, JSON.stringify(data))
 		.then((response) => {
-			console.log(response);
+			console.log('response', response);
 			dispatch(showFilmAdd(false));
 			dispatch(getFilmRequest());
 			dispatch(showNotification(true));
@@ -44,18 +48,22 @@ export async function postFilmRequest (dispatch, data) {
 			return response.data;
 		})
 		.catch((message) => {
-			dispatch(fetchError(message.response.data));
-			console.log(message)
+			console.log('error', message);
+            if(typeof message.response.data === 'object'){
+                dispatch(fetchErrorMessage(message.response.data));
+            } else {
+                dispatch(fetchError(message.message));
+                dispatch(showErrorNotification(true))
+            }
 		})
 	return result
 }
 
 export async function putFilmRequest (dispatch, data, filmId, state) {
-	dispatch(fetching());
-	console.log(state)
+	// dispatch(fetching());
 	const result = await api.put(`/film_add/${filmId}/`, JSON.stringify(data))
 		.then((response) => {
-			console.log(response); console.log(response.data);
+			console.log('response', response);
 			dispatch(showFilmEdit(false));
 			dispatch(getFilmRequest());
 			dispatch(showNotification(true));
@@ -72,8 +80,13 @@ export async function putFilmRequest (dispatch, data, filmId, state) {
 			return response.data;
 		})
 		.catch((message) => {
-			console.log(message)
-			dispatch(fetchError(message.response.data));
+			console.log('error', message);
+            if(typeof message.response.data === 'object'){
+                dispatch(fetchErrorMessage(message.response.data));
+            } else {
+                dispatch(fetchError(message.message));
+                dispatch(showErrorNotification(true))
+            }
 		})
 	return result
 }

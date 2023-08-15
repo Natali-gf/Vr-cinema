@@ -8,7 +8,7 @@ import MultiSelect from '../../ui/select/MultiSelect';
 
 export default function FilterStudio ({className}) {
 	const dispatch = useDispatch();
-	const { copyright } = useSelector(studios)
+	const { copyright } = useSelector(state => state.copyright);
 	const { studio } = useSelector(state => state.filter);
 	// getting studio from backend
 	useEffect(() => {

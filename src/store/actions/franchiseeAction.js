@@ -1,7 +1,7 @@
 import api from "../../api/axios";
-import { fetching, fetchSuccess, fetchError, fetchingCurrentFranchisee, fetchCurrentFranchiseeSuccess } from '../slices/franchiseeSlice';
+import { fetching, fetchSuccess, fetchError, fetchingCurrentFranchisee, fetchCurrentFranchiseeSuccess, fetchErrorMessage } from '../slices/franchiseeSlice';
 import { showFranchiseeAdd, showFranchiseeEdit } from '../slices/windowStateSlice';
-import { setNotificationText, showNotification } from '../slices/notification';
+import { setNotificationText, showErrorNotification, showNotification } from '../slices/notification';
 
 
 export const getFranchiseeRequest = () => {
@@ -10,8 +10,10 @@ export const getFranchiseeRequest = () => {
             dispatch(fetching());
             const response = await api.get('/franchisee/');
             dispatch(fetchSuccess( response.data ));
-        } catch (e) {
-            dispatch(fetchError(e))
+        } catch (message) {
+            console.log('error', message)
+            dispatch(fetchError(message.message));
+            dispatch(showErrorNotification(true));
         }
     }
 }
@@ -22,17 +24,19 @@ export const getCurrentFranchiseeRequest = (franchiseeId) => {
             dispatch(fetchingCurrentFranchisee());
             const response = await api.get(`/franchisee/${franchiseeId}`)
             dispatch(fetchCurrentFranchiseeSuccess( response.data ));
-        } catch (e) {
-            dispatch(fetchError(e));
+        } catch (message) {
+            console.log('error', message)
+            dispatch(fetchError(message.message));
+            dispatch(showErrorNotification(true));
         }
     }
 }
 
 export async function postFranchiseeRequest (dispatch, data) {
-	dispatch(fetching());
+	// dispatch(fetching());
     const result = await api.post(`/franchisee/`, JSON.stringify(data))
         .then((response) => {
-            console.log(response);
+            console.log('response', response);
             dispatch(showFranchiseeAdd(false));
 			dispatch(getFranchiseeRequest());
 			dispatch(showNotification(true));
@@ -44,17 +48,22 @@ export async function postFranchiseeRequest (dispatch, data) {
             return response.data;
         })
         .catch((message) => {
-            dispatch(fetchError(message.response.data));
-            console.log(message)
+            console.log('error', message);
+            if(typeof message.response.data === 'object'){
+                dispatch(fetchErrorMessage(message.response.data));
+            } else {
+                dispatch(fetchError(message.message));
+                dispatch(showErrorNotification(true))
+            }
         })
     return result;
 }
 
 export async function putFranchiseeRequest (dispatch, data, franchiseeId) {
-	dispatch(fetching());
+	// dispatch(fetching());
     const result = await api.put(`/franchisee/${franchiseeId}/`, JSON.stringify(data))
         .then((response) => {
-            console.log(response);
+            console.log('response', response);
             dispatch(showFranchiseeEdit(false));
 			dispatch(getFranchiseeRequest());
 			dispatch(showNotification(true));
@@ -63,11 +72,15 @@ export async function putFranchiseeRequest (dispatch, data, franchiseeId) {
 				dispatch(showNotification(false))
 			}, 3000);
 			return response.data;
-            return response.data;
         })
         .catch((message) => {
-            dispatch(fetchError(message.response.data));
-            console.log(message)
+            console.log('error', message);
+            if(typeof message.response.data === 'object'){
+                dispatch(fetchErrorMessage(message.response.data));
+            } else {
+                dispatch(fetchError(message.message));
+                dispatch(showErrorNotification(true))
+            }
         })
     return result;
 }

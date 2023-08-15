@@ -5,7 +5,6 @@ const initialState = {
     error: '',
     errorView: '',
     copyright: [],
-    copyrightId: '',
 }
 
 export const copyrightSlice = createSlice({
@@ -22,15 +21,14 @@ export const copyrightSlice = createSlice({
         fetchError: (state, action) => {
             state.loading = false;
             state.error = action.payload;
-            state.errorView = action.payload;
         },
-        // setCopyrightId: (state, action) => {
-        //     state.copyrightId = action.payload;
-        // },
+        fetchErrorMessage: (state, action) => {
+            state.loading = false;
+            state.errorView = action.payload;
+        }
     }
 })
 
-export const { fetching, fetchSuccess, fetchError, setCopyrightId } = copyrightSlice.actions
-export const studios = (state) => state.copyright;
+export const { fetching, fetchSuccess, fetchError, fetchErrorMessage, setCopyrightId } = copyrightSlice.actions;
 
 export default copyrightSlice.reducer

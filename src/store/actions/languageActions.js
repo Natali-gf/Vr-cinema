@@ -1,7 +1,7 @@
 import api from "../../api/axios";
-import { fetching, fetchSuccess, fetchError } from '../slices/languageSlice';
+import { fetching, fetchSuccess, fetchError, fetchErrorMessage } from '../slices/languageSlice';
 import { sortByName } from '../../helpers/helpers';
-import { setNotificationText, showNotification } from "../slices/notification";
+import { setNotificationText, showErrorNotification, showNotification } from "../slices/notification";
 
 export const getLanguageRequest = () => {
     return async (dispatch) => {
@@ -9,9 +9,10 @@ export const getLanguageRequest = () => {
             dispatch(fetching());
             const response = await api.get('/language/')
             dispatch(fetchSuccess( response.data.sort(sortByName) ))
-        } catch (e) {
-            dispatch(fetchError(e))
-			console.log('error');
+        } catch (message) {
+            console.log('error', message);
+            dispatch(fetchError(message.message));
+            dispatch(showErrorNotification(true));
         }
     }
 }
@@ -30,9 +31,16 @@ export async function postLanguageRequest (dispatch, data) {
             return response;
         })
         .catch((message) => {
-            dispatch(fetchError(message.response.data));
-            console.log(message)
+            console.log('error', message);
+            if(typeof message.response.data === 'object'){
+                dispatch(fetchErrorMessage(message.response.data));
+            } else {
+                dispatch(fetchError(message.message));
+                dispatch(showErrorNotification(true))
+            }
+            return message;
         })
+        console.log(result)
     return result;
 }
 
@@ -50,8 +58,14 @@ export async function putLanguageRequest (dispatch, data, languageId) {
             return response;
         })
         .catch((message) => {
-            dispatch(fetchError(message.response.data));
-            console.log(message)
+            console.log('error', message);
+            if(typeof message.response.data === 'object'){
+                dispatch(fetchErrorMessage(message.response.data));
+            } else {
+                dispatch(fetchError(message.message));
+                dispatch(showErrorNotification(true))
+            }
+            return message;
         })
     return result;
 }
@@ -70,8 +84,15 @@ export async function deleteLanguageRequest (dispatch, languageId) {
             return response;
         })
         .catch((message) => {
-            dispatch(fetchError(message.response.data));
-            console.log(message)
+            console.log('error', message);
+            if(typeof message.response.data === 'object'){
+                dispatch(fetchErrorMessage(message.response.data));
+            } else {
+                dispatch(fetchError(message.message));
+                dispatch(showErrorNotification(true))
+            }
+            return message;
         })
+        console.log(result)
     return result;
 }

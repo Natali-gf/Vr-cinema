@@ -1,28 +1,32 @@
 import Multiselect from "multiselect-react-dropdown";
-import { sortBy, sortData } from "../../../data/constans";
+import { cinemaSortBy, sortData } from "../../../data/constans";
 import cn from "classnames";
 import moment from 'moment';
 import '../sort-style.scss';
 import { useDispatch, useSelector } from "react-redux";
-import { currentSort, selectSort } from "../../../store/slices/filterFilm";
+import { currentSort, selectSort } from "../../../store/slices/filterCinema";
 
 function Sort({className, multiselectRef, setDesc}) {
 	const dispatch = useDispatch()
-	const {	films } = useSelector(state => state.films);
+	const {	cinema } = useSelector(state => state.cinema);
 	//sort
 	const getSortBy = (e) => {
-		let sortedFilms = films;
-		if (e[0] ==='Алфавиту') {
-				sortedFilms = [...sortedFilms].sort()
-			} else if (e[0] ==='Дате добавления'){
-				sortedFilms = [...sortedFilms].sort((a,b)=>
-							(+moment(a.date_add, 'yyyy-mm-dd')) - (+moment(b.date_add, 'yyyy-mm-dd')))
-			} else if (e[0] ==='Году создания'){
-				sortedFilms = [...sortedFilms].sort((a,b)=>
-							a.year - b.year)
-			} else if (e[0] ==='Времени'){
-				sortedFilms = [...sortedFilms].sort((a,b)=>
-							(+moment(a.duration, 'hh:mm:ss')) - (+moment(b.duration, 'hh:mm:ss')))}
+		let sortedFilms = cinema;
+		console.log(sortedFilms)
+		if (e[0] ==='Названию') {
+				sortedFilms = [...sortedFilms].sort((a,b) => {
+					if(a.name.toLowerCase() < b.name.toLowerCase()) return -1;
+					if(a.name.toLowerCase() > b.name.toLowerCase()) return 1;
+					return 0;
+				})
+			} else if (e[0] ==='Франчайзи'){
+				sortedFilms = [...sortedFilms].sort((a,b) => {
+					if(a.franchisee.toLowerCase() < b.franchisee.toLowerCase()) return -1;
+					if(a.franchisee.toLowerCase() > b.franchisee.toLowerCase()) return 1;
+					return 0;
+				})
+			}
+			console.log(sortedFilms)
 		// update sort state
 		dispatch(currentSort(sortedFilms))
 		setDesc(true)
@@ -33,7 +37,7 @@ function Sort({className, multiselectRef, setDesc}) {
 			<Multiselect
 				isObject={false}
 				onSelect={(e) => {dispatch(selectSort(e));getSortBy(e)}}
-				options={sortBy.map(el => el.name)}
+				options={cinemaSortBy.map(el => el.name)}
 				avoidHighlightFirstOption={true}
 				placeholder=''
 				hidePlaceholder={true}

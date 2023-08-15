@@ -5,7 +5,7 @@ import React from 'react';
 import { PatternFormat } from 'react-number-format';
 
 
-export default function Input ({className, classError, name, labelBefore, labelAfter, nameField, autoComplete, placeholder, defaultValue, isDisabled, register, validation, onChange, setValue, watch, format, patternChar, mask, onValueChange, type, onKeyDown}) {
+export default function Input ({className, classError, name, labelBefore, labelAfter, nameField, autoComplete, placeholder, defaultValue, isDisabled, register, validation, onChange, setValue, watch, format, patternChar, mask, onValueChange, type, onKeyDown, pattern}) {
 	const [inputValue, setInputValue] = React.useState(defaultValue || '');
 	const [typeInput, setTypeInput] = React.useState(type)
 	const inputRef = React.useRef();
@@ -20,7 +20,12 @@ export default function Input ({className, classError, name, labelBefore, labelA
 				setInputValue('');
 			}
 		} else {
-			setInputValue(e.target.value)
+			if(type === 'number'){
+				setInputValue(e.target.value.replace(/\D/g, ""))
+			} else {
+				setInputValue(e.target.value)
+			}
+
 		}
 	}
 
@@ -47,6 +52,7 @@ export default function Input ({className, classError, name, labelBefore, labelA
 							disabled={isDisabled}
 							onChange={onChange || handleChange}
 							onKeyDown={onKeyDown}
+							pattern={pattern}
 							{...(nameField ? {} : {value: inputValue})}
 							defaultValue={defaultValue}
 							// {...(nameField ? {defaultValue: defaultValue} : {})}
