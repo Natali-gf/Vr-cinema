@@ -7,10 +7,16 @@ export const getCategoryRequest = () => {
     return async (dispatch) => {
         try {
             dispatch(fetching());
-            const response = await api.get('/category/')
-            dispatch(fetchSuccess( response.data.sort(sortByName) ))
+            const response = await api.get(`/category/`);
+            dispatch(fetchSuccess( response.data.sort(sortByName) ));
         } catch (message) {
-            console.log('error', message);
+            console.log('error', message)
+            if(message.response.statusText === "Unauthorized") {
+                localStorage.removeItem('authorizationToken');
+                window.location.href = '/authorization';
+                return;
+            }
+
             dispatch(fetchError(message.message));
             dispatch(showErrorNotification(true));
         }
@@ -21,7 +27,7 @@ export async function postCategoryRequest (dispatch, data) {
     dispatch(fetching());
     const result = await api.post(`/category/`, JSON.stringify(data))
         .then((response) => {
-            console.log('response', response);
+            // console.log('response', response);
             dispatch(getCategoryRequest());
             dispatch(showNotification(true));
 			dispatch(setNotificationText('Жанр добавлен'));
@@ -32,6 +38,12 @@ export async function postCategoryRequest (dispatch, data) {
         })
         .catch((message) => {
             console.log('error', message);
+            if(message.response.statusText === "Unauthorized") {
+                localStorage.removeItem('authorizationToken');
+                window.location.href = '/authorization';
+                return;
+            }
+
             if(typeof message.response.data === 'object'){
                 dispatch(fetchErrorMessage(message.response.data));
             } else {
@@ -46,7 +58,7 @@ export async function putCategoryRequest (dispatch, data, сategoryId) {
     dispatch(fetching());
     const result = await api.put(`/category/${сategoryId}/`, JSON.stringify(data))
         .then((response) => {
-            console.log('response', response);
+            // console.log('response', response);
             dispatch(getCategoryRequest());
             dispatch(showNotification(true));
 			dispatch(setNotificationText('Изменения сохранены'))
@@ -57,6 +69,12 @@ export async function putCategoryRequest (dispatch, data, сategoryId) {
         })
         .catch((message) => {
             console.log('error', message);
+            if(message.response.statusText === "Unauthorized") {
+                localStorage.removeItem('authorizationToken');
+                window.location.href = '/authorization';
+                return;
+            }
+
             if(typeof message.response.data === 'object'){
                 dispatch(fetchErrorMessage(message.response.data));
             } else {
@@ -71,7 +89,7 @@ export async function deleteCategoryRequest (dispatch, сategoryId) {
     dispatch(fetching());
     const result = await api.delete(`/category/${сategoryId}/`)
         .then((response) => {
-            console.log('response', response);
+            // console.log('response', response);
             dispatch(getCategoryRequest());
             dispatch(showNotification(true));
 			dispatch(setNotificationText('Жанр удалён'))
@@ -82,6 +100,12 @@ export async function deleteCategoryRequest (dispatch, сategoryId) {
         })
         .catch((message) => {
             console.log('error', message);
+            if(message.response.statusText === "Unauthorized") {
+                localStorage.removeItem('authorizationToken');
+                window.location.href = '/authorization';
+                return;
+            }
+
             if(typeof message.response.data === 'object'){
                 dispatch(fetchErrorMessage(message.response.data));
             } else {

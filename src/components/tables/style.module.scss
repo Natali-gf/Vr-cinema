@@ -12,10 +12,6 @@
 		display: block;
 		height: 69px;
 		padding-right: 10px;
-		// position: sticky;
-		// top: 209px;
-		// background: $fillWhite;
-		// z-index: 10;
 	}
 	&__films {
 		@include flex-grid(grid, null, center, center);
@@ -37,14 +33,12 @@
 	}
 	&__franchisee {
 		@include flex-grid(grid, null, start, center);
-		// min-width: 2500px;
-		grid-template-columns: .2fr 1fr 2.4fr 1.9fr 1.7fr 1.5fr 4.1fr 50px;
+		grid-template-columns: .2fr minmax(72px, 1fr) 2.4fr 1.9fr 1.7fr 1.5fr 4.1fr 50px;
 		text-align: left;
 		gap: 40px;
 	}
 	&__column {
 		@include textStyle(body, $textDark);
-		// white-space: wrap;
 		&_head {
 			@include textStyle(subtitle1, $textDark);
 		}
@@ -56,8 +50,6 @@
 		@include flex-grid(flex, column, null, start);
 		background-color: $fillWhite;
 		height: calc(100% - 68px);
-		// max-height: 100%;
-		// min-height: 150px;
 		row-gap: 20px;
 		overflow-y: scroll;
 		&::-webkit-scrollbar {

@@ -12,7 +12,7 @@ const initialState = {
 	franchiseeInfoWindow: false,
 }
 
-	export const statePopupWindow = createSlice({
+export const statePopupWindow = createSlice({
 	name: 'statePopupWindow',
 	initialState,
 	reducers: {

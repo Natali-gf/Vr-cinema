@@ -13,6 +13,7 @@ import language from "./slices/languageSlice";
 import typeCinema from "./slices/typeCinemaSlice";
 import city from "./slices/citySlice";
 import notification from "./slices/notification";
+import user from "./slices/userSlice";
 
 const rootReducer = combineReducers({
   films,
@@ -29,6 +30,7 @@ const rootReducer = combineReducers({
   cinema,
   franchisee,
   notification,
+  user
 })
 
 export function setupStore() {

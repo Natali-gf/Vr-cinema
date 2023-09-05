@@ -11,12 +11,12 @@ export default function FilterOwner({className}) {
 
 	// getting city from backend
 	useEffect(() => {
-		dispatch(getFranchiseeRequest())
+		dispatch(getFranchiseeRequest());
 	}, []);
 
 	// select filter or remove it. then write down the state
 	function handleChange(e) {
-		dispatch(selectOwner(e))
+		dispatch(selectOwner(e));
 	}
 
 	return(

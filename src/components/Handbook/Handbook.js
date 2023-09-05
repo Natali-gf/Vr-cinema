@@ -10,7 +10,7 @@ import { useDispatch } from 'react-redux';
 import { useForm } from 'react-hook-form';
 import Radio from '../ui/Radio/Radio';
 
-function Handbook({title, list, buttonName, errorView, postRequest, putRequest, deleteRequest, name, loading, fetchError, isDisabled}) {
+function Handbook(props) {
 	const dispatch = useDispatch();
 	const [option, chooseOption] = React.useState('add');
 	const [input, showInput] = React.useState(false);
@@ -18,51 +18,19 @@ function Handbook({title, list, buttonName, errorView, postRequest, putRequest, 
 	const [elemId, setElemId] = React.useState('');
 	const [elemName, setElemName] = React.useState('');
 
-	const { register, handleSubmit, setValue, setError, formState: {errors, isDirty, isValidating }, watch } = useForm({ mode: 'all' });
+	const {
+		register,
+		handleSubmit,
+		setValue,
+		formState: {errors, isValidating },
+		watch } = useForm({ mode: 'all' });
 	const nameWatch = watch('name');
 
 	React.useEffect(() =>{
-		if (errorView && errorView.name){
-			dispatch(fetchError(''));
+		if (props.errorView && props.errorView.name){
+			dispatch(props.fetchError(''));
 		}
 	}, [isValidating]);
-
-	const onSubmit = async(data) => {
-		console.log(data)
-		switch (option) {
-			case 'add':
-				if(!input){
-					showInput(!input)
-				} else {
-					await postRequest(dispatch, data).then((res) => {
-						console.log(res)
-						if(res.status >= 200 && res.status < 300){
-							console.log(res)
-							setValue('name', '');
-							showInput(false);
-						}
-					})
-				}
-				break;
-			case 'edit':
-				putRequest(dispatch, data, elemId)
-				.then(() => {
-					setValue('name', '');
-					showInput(false);
-					chooseOption('add');
-					clearChecked(true);
-				})
-				break;
-			case 'delete':
-				deleteRequest(dispatch, elemId);
-				showInput(false);
-				setValue('name', '');
-				setElemName('')
-				chooseOption('add');
-				clearChecked(true);
-				break;
-		}
-	}
 
 	React.useEffect(() =>{
 		if(option === 'edit' ||
@@ -72,6 +40,40 @@ function Handbook({title, list, buttonName, errorView, postRequest, putRequest, 
 		}
 	},[option])
 
+	const onSubmit = async(data) => {
+		switch (option) {
+			case 'add':
+				if(!input){
+					showInput(!input)
+				} else {
+					await props.postRequest(dispatch, data).then((res) => {
+						if(res.status >= 200 && res.status < 300){
+							setValue('name', '');
+							showInput(false);
+						}
+					})
+				}
+				break;
+			case 'edit':
+				props.putRequest(dispatch, data, elemId)
+				.then(() => {
+					setValue('name', '');
+					showInput(false);
+					chooseOption('add');
+					clearChecked(true);
+				})
+				break;
+			case 'delete':
+				props.deleteRequest(dispatch, elemId);
+				showInput(false);
+				setValue('name', '');
+				setElemName('')
+				chooseOption('add');
+				clearChecked(true);
+				break;
+		}
+	}
+
 	const handleChange = (e) => {
 		setValue('name', e.target.value);
 		setElemName(e.target.value);
@@ -80,36 +82,35 @@ function Handbook({title, list, buttonName, errorView, postRequest, putRequest, 
 			clearChecked(false);
 		}
 	}
-
+	
 	return (
 		<>
 			<div className={s.handbook}>
 				<div className={s.handbook__container}>
 					<div className={s.handbook__header}>
-						<h4 className={s.handbook__title}>{title}</h4>
+						<h4 className={s.handbook__title}>{props.title}</h4>
 						<DetailMenu className={s.handbook__menu}
 							typeDetail={'handbook'}
 							chooseOption={chooseOption}
-							isDisabledMenu={isDisabled} />
+							isDisabledMenu={props.isDisabled} />
 					</div>
 					<div className={s.handbook__listBox}>
-						{loading &&
+						{props.loading &&
 							<img className={s.loading} src={loadingImg} alt={'Загрузка'} />}
-							<ul className={s.handbook__list}>
-								<Radio className={s.handbook__radio_hidden}
-									name={name} isChecked={checked}
+							<div className={s.handbook__list}>
+								<Radio
+								className={s.handbook__radio_hidden}
+									name={props.name} isChecked={checked}
 									setState={clearChecked} onChange={handleChange}/>
-							{list.map((item, index) => (
-								<li key={`key${index}`}
-									className={s.handbook__item}>
-									<Radio
-										children={item.name || item.label}
-										onChange={handleChange}
-										onClick={checked ? handleChange : null}
-										name={name}
-										id={item.id || item.value} />
-								</li>))}
-						</ul>
+							{props.list.map((item, index) => (
+								<Radio className={s.handbook__item} key={`key${index}`}
+									children={item.name || item.label}
+									onChange={handleChange}
+									onClick={checked ? handleChange : null}
+									name={props.name}
+									id={item.id || item.value} />
+							))}
+							</div>
 					</div>
 					<form className={s.handbook__form}
 						onSubmit={handleSubmit(onSubmit)}
@@ -117,7 +118,7 @@ function Handbook({title, list, buttonName, errorView, postRequest, putRequest, 
 							<div className={s.handbook__field}>
 							{(input || option === 'edit') &&
 								<Input className={s.handbook__input}
-									classError={errors.name || errorView.name}
+									classError={errors.name || props.errorView.name}
 									placeholder={'Введите наименование...'}
 									nameField={'name'}
 									defaultValue={elemName}
@@ -127,17 +128,17 @@ function Handbook({title, list, buttonName, errorView, postRequest, putRequest, 
 									validation={{ required: true,
 										maxLength: 100 }}
 										 />}
-								{(errors.name || (errorView && errorView.name)) &&
+								{(errors.name || (props.errorView && props.errorView.name)) &&
 									<div className={cn(style.form__error_message, s.handbook__error)}>
 										{!errors.name ?
-											errorView.name : errors.name.message}
+											props.errorView.name : errors.name.message}
 									</div>}
 							</div>
 						<MainButton className={cn(s.handbook__addButton, {['icon_add']: option === 'add'})}
-							children={option === 'add' ? `Добавить ${buttonName}` :
+							children={option === 'add' ? `Добавить ${props.buttonName}` :
 								option === 'edit' ? 'Сохранить изменения' :
-								option === 'delete' ? `Удалить ${buttonName}` : ''}
-							isDisabled={isDisabled}
+								option === 'delete' ? `Удалить ${props.buttonName}` : ''}
+							isDisabled={props.isDisabled}
 							type={'submit'}/>
 					</form>
 				</div>

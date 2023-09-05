@@ -11,6 +11,12 @@ export const getLanguageRequest = () => {
             dispatch(fetchSuccess( response.data.sort(sortByName) ))
         } catch (message) {
             console.log('error', message);
+            if(message.response.statusText === "Unauthorized") {
+                localStorage.removeItem('authorizationToken');
+                window.location.href = '/authorization';
+                return;
+            }
+
             dispatch(fetchError(message.message));
             dispatch(showErrorNotification(true));
         }
@@ -21,7 +27,7 @@ export async function postLanguageRequest (dispatch, data) {
     dispatch(fetching());
     const result = await api.post(`/language/`, JSON.stringify(data))
         .then((response) => {
-            console.log(response);
+            // console.log(response);
             dispatch(getLanguageRequest());
             dispatch(showNotification(true));
 			dispatch(setNotificationText('Озвучка добавлена'));
@@ -32,6 +38,12 @@ export async function postLanguageRequest (dispatch, data) {
         })
         .catch((message) => {
             console.log('error', message);
+            if(message.response.statusText === "Unauthorized") {
+                localStorage.removeItem('authorizationToken');
+                window.location.href = '/authorization';
+                return;
+            }
+
             if(typeof message.response.data === 'object'){
                 dispatch(fetchErrorMessage(message.response.data));
             } else {
@@ -40,7 +52,7 @@ export async function postLanguageRequest (dispatch, data) {
             }
             return message;
         })
-        console.log(result)
+
     return result;
 }
 
@@ -48,7 +60,7 @@ export async function putLanguageRequest (dispatch, data, languageId) {
     dispatch(fetching());
     const result = await api.put(`/language/${languageId}/`, JSON.stringify(data))
         .then((response) => {
-            console.log(response);
+            // console.log(response);
             dispatch(getLanguageRequest());
             dispatch(showNotification(true));
 			dispatch(setNotificationText('Изменения сохранены'))
@@ -59,6 +71,12 @@ export async function putLanguageRequest (dispatch, data, languageId) {
         })
         .catch((message) => {
             console.log('error', message);
+            if(message.response.statusText === "Unauthorized") {
+                localStorage.removeItem('authorizationToken');
+                window.location.href = '/authorization';
+                return;
+            }
+
             if(typeof message.response.data === 'object'){
                 dispatch(fetchErrorMessage(message.response.data));
             } else {
@@ -74,7 +92,7 @@ export async function deleteLanguageRequest (dispatch, languageId) {
     dispatch(fetching());
     const result = await api.delete(`/language/${languageId}/`)
         .then((response) => {
-            console.log(response);
+            // console.log(response);
             dispatch(getLanguageRequest());
             dispatch(showNotification(true));
 			dispatch(setNotificationText('Озвучка удалена'))
@@ -85,6 +103,12 @@ export async function deleteLanguageRequest (dispatch, languageId) {
         })
         .catch((message) => {
             console.log('error', message);
+            if(message.response.statusText === "Unauthorized") {
+                localStorage.removeItem('authorizationToken');
+                window.location.href = '/authorization';
+                return;
+            }
+
             if(typeof message.response.data === 'object'){
                 dispatch(fetchErrorMessage(message.response.data));
             } else {
@@ -93,6 +117,6 @@ export async function deleteLanguageRequest (dispatch, languageId) {
             }
             return message;
         })
-        console.log(result)
+
     return result;
 }

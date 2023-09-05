@@ -14,7 +14,7 @@ const initialState = {
 	clearBtnSort: false,
 }
 
-	export const filterFranchisee = createSlice({
+export const filterFranchisee = createSlice({
 	name: 'filterFranchisee',
 	initialState,
 	reducers: {
@@ -50,8 +50,8 @@ const initialState = {
 		showClearBtnFilter(state, action) {
 			state.clearFilter = action.payload;
 		},
-		setDescSort(state){
-			state.ascSort = !state.ascSort
+		setDescSort(state, action){
+			state.ascSort = action.payload;
 		},
 		setActiveSort(state, action){
 			state.activeSort = action.payload;
@@ -65,6 +65,7 @@ const initialState = {
 export const { selectTypeFranchisee,
 	currentFilter, clearCurrentFilter, clearAllFilter,
 	selectSort, currentSort, resetAllButton,
-	setFilterVisible, setActiveFilter, showClearBtnFilter, setDescSort, setActiveSort, showClearBtnSort } = filterFranchisee.actions
+	setFilterVisible, setActiveFilter, showClearBtnFilter,
+	setDescSort, setActiveSort, showClearBtnSort } = filterFranchisee.actions
 
 export default filterFranchisee.reducer

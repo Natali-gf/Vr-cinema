@@ -1,0 +1,30 @@
+@import '../../styles/variables';
+
+.authorization {
+	position: absolute;
+	background: $background;
+	@include width-height(100%);
+	&__container{
+		position: relative;
+		@include flex-grid(flex, column, center, center);
+		height: 100%;
+		margin: auto;
+	}
+	&__title {
+		@include textStyle(title2, $textDark);
+	}
+	&__formBox{
+		@include flex-grid(flex, column, center, center);
+		width: 600px;
+		padding: 36px;
+		background-color: $fillWhite;
+		border-radius: 16px;
+		box-shadow: $shadowSecondArea;
+		gap: 28px;
+	}
+	&__button {
+		padding: 12px 24px;
+		align-self: flex-end;
+	}
+
+}

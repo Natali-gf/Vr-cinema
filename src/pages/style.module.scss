@@ -7,30 +7,19 @@
 		position: relative;
 		@include flex-grid(flex, column, null, center);
 		padding: 0 20px;
-		// height: 100vh;
 		position: relative;
-		// position: sticky;
-		// overflow: hidden;
 	}
 	&__header {
-		// position: sticky;
-		// top: 0;
-		// z-index: 10;
-		// background: $background;
 		padding: 42px 96px 24px;
 	}
 	&__filterPanel {
-		// position: sticky;
-		// top: 105px;
-		// z-index: 10;
-		// background: $background;
 		width: 100%;
 		display: grid;
 		@include flex-grid(grid, null, start, stretch);
 		grid-template-columns: 76px 5fr 254px 76px;
 		grid-template-rows: 48px;
 		grid-template-areas:
-			'.	filters button	.'
+			' .	filters button	. '
 			'option option option option';
 		padding: 36px 20px 20px;
 	}
@@ -51,7 +40,6 @@
 		width: 100%;
 		position: relative;
 		padding: 0 20px;
-		// margin-top: 20px;
 	}
 	&__handbooks {
 		position: relative;

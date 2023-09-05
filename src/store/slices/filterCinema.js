@@ -16,7 +16,7 @@ const initialState = {
 	clearBtnSort: false,
 }
 
-	export const filterCinema = createSlice({
+export const filterCinema = createSlice({
 	name: 'filterCinema',
 	initialState,
 	reducers: {
@@ -60,8 +60,8 @@ const initialState = {
 		showClearBtnFilter(state, action) {
 			state.clearFilter = action.payload;
 		},
-		setDescSort(state){
-			state.ascSort = !state.ascSort
+		setDescSort(state, action){
+			state.ascSort = action.payload;
 		},
 		setActiveSort(state, action){
 			state.activeSort = action.payload;

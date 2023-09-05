@@ -1,6 +1,7 @@
 import style from './style.module.scss';
-import SideMenuLink from '../../ui/Navlink/Navlink';
+import Navlink from '../../ui/Navlink/Navlink';
 import cn from 'classnames';
+import { logoutRequest } from '../../../store/actions/authorizationAction';
 
 export default function SidebarOptions({className}) {
 	const classes = cn(style.userMenu, className);
@@ -9,19 +10,20 @@ export default function SidebarOptions({className}) {
 		<div className={classes}>
 			<ul className={style.userMenu__list}>
 				<li className={style.userMenu__item}>
-					<SideMenuLink className='icon_archive'
+					<Navlink className='icon_archive'
 						to='/handbook'
 						children={'Справочник'} />
 				</li>
 				<li className={style.userMenu__item}>
-					<SideMenuLink className='icon_usermenu_settings'
-						to='/settings'
+					<Navlink className='icon_usermenu_settings'
+						to='/user_settings'
 						children={'Настройки'} />
 				</li>
 				<li className={style.userMenu__item}>
-					<SideMenuLink className='icon_usermenu_out'
-							to='/'
-							children={'Выход'} />
+					<Navlink className='icon_usermenu_out'
+						onClick={() => logoutRequest()}
+						to='/'
+						children={'Выход'} />
 				</li>
 			</ul>
 		</div>

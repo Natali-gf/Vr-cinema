@@ -43,12 +43,6 @@
 		color: $textBlue;
 		border: 1px solid $strokeBlue;
 	}
-	// &:active .sort__button,
-	// &:active .sort__dropDownMenu {
-	// 	color: $textWhite;
-	// 	border: $strokeWhite;
-	// 	background-color: $fillBlueDark;
-	// }
 	.sort &__button {
 		border-radius: 8px 0 0 8px;
 		height: 44px;
@@ -72,7 +66,6 @@
 			position: absolute;
 			right: 26px;
 			font-size: 12px;
-			// margin: 10px 0;
 		}
 	}
 	.sort &__clear {

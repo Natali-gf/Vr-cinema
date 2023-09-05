@@ -7,7 +7,7 @@ import { getIndexCheckedItems, setFormFieldsValue } from '../../helpers/helpers'
 import MainButton from '../ui/MainButton/MainButton';
 import { useForm } from 'react-hook-form';
 import { postFranchiseeRequest, putFranchiseeRequest, getCurrentFranchiseeRequest } from '../../store/actions/franchiseeAction';
-import { clearFranchiseeData, fetchError } from '../../store/slices/franchiseeSlice';
+import { clearFranchiseeData, fetchErrorMessage } from '../../store/slices/franchiseeSlice';
 import Input from '../ui/Input/Input';
 import { franchiseeType } from '../../data/constans';
 import { getFilmRequest } from '../../store/actions/filmActions';
@@ -21,16 +21,17 @@ const franchiseeFormFields = ['name', 'username', 'password', 'number_contract',
 							'bank_name', 'bank_account_number', 'bik_bank',
 							'films', 'ownership'];
 
-function FranchiseeForm ({className, franchiseeId, modeInfo, buttonName}) {
+function FranchiseeForm ({franchiseeId, modeInfo, buttonName}) {
 
 	const dispatch = useDispatch();
 	const { franchiseeData, errorView } = useSelector(state => state.franchisee);
-	const { films } = useSelector(state => state.films);
+	const { films, loadingPage } = useSelector(state => state.films);
 	const [ loadForm, setLoadForm] = React.useState('');
 	const [ visibleField, setVisibleField ] = React.useState('');
 	const [ isChanged, setIsChanged ] = React.useState(false);
 
-	const { register, handleSubmit, setValue, setError, formState: {errors, isValidating, isDirty}, watch } = useForm({ mode: 'all' });
+	const { register, handleSubmit, setValue, setError,
+		formState: {errors, isValidating, isDirty}, watch } = useForm({ mode: 'all' });
 
 	const [ nameWatch, usernameWatch, passwordWatch, numberContractWatch,
 		ogrnWatch, ogrnipWatch, innWatch, kppBankWatch, addressWatch,
@@ -42,9 +43,7 @@ function FranchiseeForm ({className, franchiseeId, modeInfo, buttonName}) {
 		} else {
 			setLoadForm(true);
 		};
-		if(!films.length){
-			dispatch(getFilmRequest());
-		};
+		dispatch(getFilmRequest());
 		// register fields
 		register('ownership', { required: 'Обязательное поле!' });
 		register('films');
@@ -64,17 +63,16 @@ function FranchiseeForm ({className, franchiseeId, modeInfo, buttonName}) {
 
 	React.useEffect(() =>{
 		if (errorView){
-			dispatch(fetchError(''));
+			dispatch(fetchErrorMessage(''));
 		}
 	}, [isValidating]);
 
 	const onSubmit = async(data, e) => {
-		console.log(e)
 		e.preventDefault()
 		if (!data.films){
 			data.films=[];
 		}
-		console.log(data)
+
 		if(franchiseeId){
 			putFranchiseeRequest(dispatch, data, franchiseeId);
 		} else {
@@ -394,6 +392,7 @@ function FranchiseeForm ({className, franchiseeId, modeInfo, buttonName}) {
 						</div>
 					</div>}
 	{/* films */}
+					{!loadingPage &&
 					<div className={s.form__franchiseeField}>
 						<MultiSelect className={cn(s.form__select)}
 							classError={errors.films && errors.films.type}
@@ -405,11 +404,8 @@ function FranchiseeForm ({className, franchiseeId, modeInfo, buttonName}) {
 							isDisabled={modeInfo}
 							onChange={(e) => {
 								let films=[];
-								if (!e.length) {
-									setError('films', 'Обязательное поле!')
-								} else {
+								if (e.length) {
 									e.map(elem => films.push(elem.name));
-									setError('films', '');
 								}
 								setValue('films', films);
 								setIsChanged(true);
@@ -420,7 +416,7 @@ function FranchiseeForm ({className, franchiseeId, modeInfo, buttonName}) {
 								{!errors.films ?
 									errorView.films : errors.films.message}
 							</div>}
-					</div>
+					</div>}
 				</div>
 				{buttonName &&
 					<MainButton className={cn(s.form__button)}

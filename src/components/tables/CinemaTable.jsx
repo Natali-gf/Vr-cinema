@@ -11,7 +11,7 @@ import { setSearchValue } from '../../store/slices/searchSlice';
 
 const tableHeaders = ['', 'Тип', 'Город', 'Адрес', 'Франчайзи', 'Название', '']
 
-function CinemaTable({className}) {
+function CinemaTable() {
 	const dispatch = useDispatch();
 	const { cinema, loadingPage, loadingWindow } = useSelector(state => state.cinema);
 	const { searchValue } = useSelector(state => state.search);
@@ -64,7 +64,7 @@ function CinemaTable({className}) {
 								{item.address}
 							</td>
 							<td className={style.table__column}>
-								{item.franchisee}
+								{item.franchisee.name}
 							</td>
 							<td className={style.table__column}>
 								{item.name}
@@ -72,7 +72,7 @@ function CinemaTable({className}) {
 							<td className={style.table__column}>
 								<DetailMenu className={style.table__menu}
 									isPublished={item.is_active}
-									elemId={item.id}
+									elemId={item}
 									typeDetail={'cinema'} />
 							</td>
 						</tr>

@@ -9,7 +9,7 @@ import { setSearchValue } from '../../store/slices/searchSlice';
 
 const tableHeaders = ['', 'Тип', 'Наименование', 'Логин', '№ договора', 'ИНН', 'Адрес', '',]
 
-function FranchiseeTable({className}) {
+function FranchiseeTable() {
 	const dispatch = useDispatch();
 	const { franchisee, loadingPage } = useSelector(state => state.franchisee);
 	const { searchValue } = useSelector(state => state.search);
@@ -48,7 +48,7 @@ function FranchiseeTable({className}) {
 					style={filterVisible ? {height: 'calc(100vh - 477px)'}:{height: 'calc(100vh - 279px)'}}>
 					{customFranchisee
 						.filter( item => {
-							return item.name.toLowerCase().includes(searchValue.toLowerCase()) || (item.number_contract.toString()).includes(searchValue)})
+							return item.name?.toLowerCase().includes(searchValue.toLowerCase()) || (item.number_contract?.toString()).includes(searchValue)})
 							.map( (item, index) => (
 						<tr className={cn(style.table__row, style.table__franchisee)} key={index + Math.random()}>
 							<td className={style.table__column}></td>
@@ -72,7 +72,6 @@ function FranchiseeTable({className}) {
 							</td>
 							<td className={style.table__column}>
 								<DetailMenu className={style.table__menu}
-									// isPublished={item.is_active}
 									elemId={item.id}
 									typeDetail={'franchisee'}/>
 							</td>

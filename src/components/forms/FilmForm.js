@@ -5,15 +5,15 @@ import { useDispatch, useSelector } from 'react-redux';
 import { age } from '../../data/constans';
 import MultiSelect from '../ui/select/MultiSelect';
 import SingleSelect from '../ui/select/SingleSelect';
-import { getIndexCheckedItems, chooseImage, removeImage, setFormFieldsValue, previewImage } from '../../helpers/helpers';
+import { getIndexCheckedItems, chooseImage, removeImage, setFormFieldsValue } from '../../helpers/helpers';
 import { getCopyrightRequest } from '../../store/actions/copyrightActions';
 import { getCategoryRequest } from '../../store/actions/categoryActions';
 import MainButton from '../ui/MainButton/MainButton';
-import { postFilmRequest, putFilmImageRequest, putFilmRequest } from '../../store/actions/filmActions';
+import { postFilmRequest, putFilmRequest } from '../../store/actions/filmActions';
 import { useForm } from 'react-hook-form';
 import { getCurrentFilmRequest } from '../../store/actions/filmActions';
 import Checkbox from '../ui/Checkbox/Checkbox';
-import { clearFilmData, fetchError } from '../../store/slices/filmSlice';
+import { clearFilmData, fetchErrorMessage } from '../../store/slices/filmSlice';
 import Input from '../ui/Input/Input';
 import { showFilmInfo, showFilmEdit } from '../../store/slices/windowStateSlice';
 import loadingImg from '../../assets/icons/loading.svg';
@@ -23,7 +23,7 @@ import { deleteImageRequest, postImageRequest, putImageRequest } from '../../sto
 
 export const filmFormFields = ['name', 'duration', 'year', 'is_published','category',  'copyright_holder', 'language', 'age'];
 
-function FilmForm({className, filmId, modeInfo, buttonName, classButton}) {
+function FilmForm({filmId, modeInfo, buttonName, classButton}) {
 
 	const dispatch = useDispatch();
 	const { filmData, errorView } = useSelector(state => state.films);
@@ -31,12 +31,11 @@ function FilmForm({className, filmId, modeInfo, buttonName, classButton}) {
 	const { copyright } = useSelector(state => state.copyright);
 	const { language } = useSelector(state => state.language);
 	const [ imgsrc, setImgsrc] = React.useState('');
-	const [ imgValue, setImgValue] = React.useState('');
 	const [ loadForm, setLoadForm] = React.useState('');
 	const [ isChanged, setIsChanged ] = React.useState(false);
 
-	const { register, handleSubmit, setValue, setError, getValues, formState: {errors, isDirty, isValidating }, watch } = useForm({ mode: 'all' });
-
+	const { register, handleSubmit, setValue, setError, getValues,
+		formState: {errors, isDirty, isValidating }, watch } = useForm({ mode: 'all' });
 	const [ nameWatch, durationWatch, yearWatch ] = watch(filmFormFields);
 
 	React.useEffect(() => {
@@ -76,7 +75,7 @@ function FilmForm({className, filmId, modeInfo, buttonName, classButton}) {
 
 	React.useEffect(() =>{
 		if (errorView){
-			dispatch(fetchError(''));
+			dispatch(fetchErrorMessage(''));
 		}
 	}, [isValidating]);
 
@@ -88,32 +87,26 @@ function FilmForm({className, filmId, modeInfo, buttonName, classButton}) {
 
 		if(filmId){
 			if(img && filmData.imagine !== null){
-				console.log(1)
 				formImage.image = img;
 				await putImageRequest(dispatch, formImage, filmData.imagine.id)
 					.then(response => {
 						form.imagine = response.id;
 						putFilmRequest(dispatch, form, filmId);
 					});
-				setImgValue('');
 			} else if(img && filmData.imagine === null){
-				console.log(2)
 				formImage.image = img;
 				await postImageRequest(dispatch, formImage)
 					.then(response => {
 						form.imagine = response.id;
 						putFilmRequest(dispatch, form, filmId);
 					});
-				setImgValue('');
 			} else if(filmData.imagine === undefined && !img){
-				console.log(3)
 				form.imagine = null;
 				await putFilmRequest(dispatch, form, filmId)
 					.then(() => {
 						deleteImageRequest(filmData.imagine.id)
 					});
 			}else {
-				console.log(4)
 				putFilmRequest(dispatch, data, filmId);
 			}
 		} else {
@@ -124,7 +117,6 @@ function FilmForm({className, filmId, modeInfo, buttonName, classButton}) {
 						form.imagine = response.id;
 						postFilmRequest(dispatch, form);
 					});
-				setImgValue('');
 			} else {
 				postFilmRequest(dispatch, form);
 			}
@@ -140,6 +132,7 @@ function FilmForm({className, filmId, modeInfo, buttonName, classButton}) {
 			<form className={s.form}
 				onSubmit={handleSubmit(onSubmit)}>
 				<div className={cn(s.form__fields, s.form__filmFields)}>
+	{/* imagine */}
 					<div className={cn(s.form__poster, s.poster)}>
 						<div className={s.poster__field}>
 							<div className={cn(s.poster__change, 'icon_add_poster')}>
@@ -195,7 +188,6 @@ function FilmForm({className, filmId, modeInfo, buttonName, classButton}) {
 							placeholder={'Выберите...'} labelBefore={'Студия'}
 							defaultValue={() => filmId ? getIndexCheckedItems(copyright, filmData.copyright_holder).map(i => copyright[i]) : null}
 							onChange={(e) => {
-								console.log(e.length)
 								let studios=[];
 								if (!e.length) {
 									setError('copyright_holder', { type: "required", message: 'Обязательное поле!' })

@@ -11,27 +11,25 @@ export function previewImage(e, setState) {
 
 		reader.onload = () => {
 			if(reader.readyState){
-				setState(reader.result)
+				setState(reader.result);
 			}
 		}
 
-	const result = reader.readAsDataURL(e.target.files[0])
-
-	return result
+	const result = reader.readAsDataURL(e.target.files[0]);
+	return result;
 }
 
 export function btnClearField(e, nameField, clearField) {
 	e.preventDefault();
-	clearField(nameField, undefined)
+	clearField(nameField, undefined);
 }
 
-export function getIndexCheckedItems (options, checkedOptions){
+export function getIndexCheckedItems (options, checkedOptions, name){
 	let optionIndex = [];
 		options.map((o, i) => checkedOptions.map(e => {
-			if(o.name === e || o.label === e){
+			if((name ? o.name === e[name] : o.name === e) || o.label === e){
 			optionIndex.push(i);
 		}} ))
-
 	return optionIndex;
 }
 
@@ -48,15 +46,15 @@ export function removeImage(setSrc, setState, nameField){
 export const setFormFieldsValue = (formFields, setFieldValue, currentData) => {
 	let fields = {}
 	formFields.map(nameField => {
-		setFieldValue ?
-		setFieldValue(nameField, currentData[nameField]) :
-		fields[nameField] = currentData[nameField]
+		setFieldValue
+		? setFieldValue(nameField, currentData[nameField])
+		: fields[nameField] = currentData[nameField];
 	})
 	return fields;
 }
 
 export function sortByName(a, b){
-    if (a.name < b.name) {return -1;}
-    if (a.name > b.name) {return 1;}
+    if (a.name < b.name) {return -1};
+    if (a.name > b.name) {return 1};
     return 0;
 }

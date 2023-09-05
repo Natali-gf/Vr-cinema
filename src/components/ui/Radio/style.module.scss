@@ -1,7 +1,7 @@
 @import '../../../styles/variables';
 
-.checkbox{
-	@include width-height(100%, 24px);
+.radio {
+	@include width-height(100%, 100%);
 	@include flex-grid(flex, null, center, center);
 	&:hover &__label::before {
 		color: $fillBlue;

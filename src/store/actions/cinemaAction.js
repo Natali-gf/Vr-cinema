@@ -1,4 +1,3 @@
-import axios from 'axios';
 import api from "../../api/axios";
 import { fetching, fetchSuccess, fetchError, fetchingCurrentCinema, fetchCurrentCinemaSuccess, fetchErrorMessage } from '../slices/cinemaSlice';
 import { showCinemaAdd, showCinemaEdit } from '../slices/windowStateSlice';
@@ -12,6 +11,12 @@ export const getCinemaRequest = () => {
             dispatch(fetchSuccess( response.data ));
         } catch (message) {
             console.log('error', message);
+            if(message.response.statusText === "Unauthorized") {
+                localStorage.removeItem('authorizationToken');
+                window.location.href = '/authorization';
+                return;
+            }
+
             dispatch(fetchError(message.message));
             dispatch(showErrorNotification(true));
         }
@@ -28,6 +33,12 @@ export const getCurrentCinemaRequest = (cinemaId) => {
 			return response;
         } catch (message) {
             console.log('error', message);
+            if(message.response.statusText === "Unauthorized") {
+                localStorage.removeItem('authorizationToken');
+                window.location.href = '/authorization';
+                return;
+            }
+
             dispatch(fetchError(message.message));
             dispatch(showErrorNotification(true));
         }
@@ -35,10 +46,9 @@ export const getCurrentCinemaRequest = (cinemaId) => {
 }
 
 export async function postCinemaRequest (dispatch, data) {
-	// dispatch(fetching());
-    const result = await api.post(`/cinema/`, JSON.stringify(data))
+    const result = await api.post(`/cinema_add/`, JSON.stringify(data))
         .then((response) => {
-            console.log(response);
+            // console.log(response);
             dispatch(showCinemaAdd(false));
 			dispatch(getCinemaRequest());
 			dispatch(showNotification(true));
@@ -51,6 +61,12 @@ export async function postCinemaRequest (dispatch, data) {
         })
         .catch((message) => {
             console.log('error', message);
+            if(message.response.statusText === "Unauthorized") {
+                localStorage.removeItem('authorizationToken');
+                window.location.href = '/authorization';
+                return;
+            }
+
             if(typeof message.response.data === 'object'){
                 dispatch(fetchErrorMessage(message.response.data));
             } else {
@@ -62,10 +78,9 @@ export async function postCinemaRequest (dispatch, data) {
 }
 
 export async function putCinemaRequest (dispatch, data, cinemaId, state) {
-	// dispatch(fetching());
-    const result = await api.put(`/cinema/${cinemaId}/`, JSON.stringify(data))
+    const result = await api.put(`/cinema_add/${cinemaId}/`, JSON.stringify(data))
         .then((response) => {
-            console.log(response);
+            // console.log(response);
             dispatch(showCinemaEdit(false));
 			dispatch(getCinemaRequest());
 			dispatch(showNotification(true));
@@ -83,6 +98,12 @@ export async function putCinemaRequest (dispatch, data, cinemaId, state) {
         })
         .catch((message) => {
             console.log('error', message);
+            if(message.response.statusText === "Unauthorized") {
+                localStorage.removeItem('authorizationToken');
+                window.location.href = '/authorization';
+                return;
+            }
+
             if(typeof message.response.data === 'object'){
                 dispatch(fetchErrorMessage(message.response.data));
             } else {

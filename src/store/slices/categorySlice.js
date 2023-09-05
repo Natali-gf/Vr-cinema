@@ -5,7 +5,6 @@ const initialState = {
     error: '',
     errorView: '',
     category: [],
-    // categoryId: '',
 }
 
 export const categorySlice = createSlice({

@@ -3,7 +3,6 @@
 .window {
 	@include width-height(100%, 100%);
 	background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4));
-	// position: fixed;
 	z-index: 100;
 	display: flex;
 	align-items: center;

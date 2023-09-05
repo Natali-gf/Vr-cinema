@@ -4,7 +4,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { currentFilter, clearCurrentFilter, setFilterVisible, setActiveFilter, showClearBtnFilter } from '../../../store/slices/filterFranchisee';
 import MainButton from '../../ui/MainButton/MainButton';
 
-export default function FranchiseeFilterButton({className}) {
+export default function FranchiseeFilterButton() {
 	//filters states (redux)
 	const {	typeFranchisee, filtered } = useSelector(state => state.filterFranchisee);
 	const {	franchisee } = useSelector(state => state.franchisee);
@@ -16,14 +16,9 @@ export default function FranchiseeFilterButton({className}) {
 			let filteredFranchisee = franchisee;
 			if (typeFranchisee.length) {
 				filteredFranchisee = filteredFranchisee.filter((item) => (
+					typeFranchisee.some((elem) => (
+						elem.label === item.ownership))))}
 
-					// item.name.some((filter) => (
-						typeFranchisee.some((elem) => (
-							elem.label === item.ownership))))}
-
-
-					// typeFranchisee.some((elem) => (
-					// 	elem.name === item.ownership))))}
 			//update filters state
 			dispatch(currentFilter(filteredFranchisee))
 		}

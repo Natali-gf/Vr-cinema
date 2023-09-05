@@ -11,7 +11,13 @@ export const getFranchiseeRequest = () => {
             const response = await api.get('/franchisee/');
             dispatch(fetchSuccess( response.data ));
         } catch (message) {
-            console.log('error', message)
+            console.log('error', message);
+            if(message.response.statusText === "Unauthorized") {
+                localStorage.removeItem('authorizationToken');
+                window.location.href = '/authorization';
+                return;
+            }
+
             dispatch(fetchError(message.message));
             dispatch(showErrorNotification(true));
         }
@@ -22,10 +28,16 @@ export const getCurrentFranchiseeRequest = (franchiseeId) => {
     return async (dispatch) => {
         try {
             dispatch(fetchingCurrentFranchisee());
-            const response = await api.get(`/franchisee/${franchiseeId}`)
+            const response = await api.get(`/franchisee/${franchiseeId}`);
             dispatch(fetchCurrentFranchiseeSuccess( response.data ));
         } catch (message) {
-            console.log('error', message)
+            console.log('error', message);
+            if(message.response.statusText === "Unauthorized") {
+                localStorage.removeItem('authorizationToken');
+                window.location.href = '/authorization';
+                return;
+            }
+
             dispatch(fetchError(message.message));
             dispatch(showErrorNotification(true));
         }
@@ -33,10 +45,9 @@ export const getCurrentFranchiseeRequest = (franchiseeId) => {
 }
 
 export async function postFranchiseeRequest (dispatch, data) {
-	// dispatch(fetching());
     const result = await api.post(`/franchisee/`, JSON.stringify(data))
         .then((response) => {
-            console.log('response', response);
+            // console.log('response', response);
             dispatch(showFranchiseeAdd(false));
 			dispatch(getFranchiseeRequest());
 			dispatch(showNotification(true));
@@ -49,6 +60,12 @@ export async function postFranchiseeRequest (dispatch, data) {
         })
         .catch((message) => {
             console.log('error', message);
+            if(message.response.statusText === "Unauthorized") {
+                localStorage.removeItem('authorizationToken');
+                window.location.href = '/authorization';
+                return;
+            }
+
             if(typeof message.response.data === 'object'){
                 dispatch(fetchErrorMessage(message.response.data));
             } else {
@@ -60,10 +77,9 @@ export async function postFranchiseeRequest (dispatch, data) {
 }
 
 export async function putFranchiseeRequest (dispatch, data, franchiseeId) {
-	// dispatch(fetching());
     const result = await api.put(`/franchisee/${franchiseeId}/`, JSON.stringify(data))
         .then((response) => {
-            console.log('response', response);
+            // console.log('response', response);
             dispatch(showFranchiseeEdit(false));
 			dispatch(getFranchiseeRequest());
 			dispatch(showNotification(true));
@@ -75,6 +91,12 @@ export async function putFranchiseeRequest (dispatch, data, franchiseeId) {
         })
         .catch((message) => {
             console.log('error', message);
+            if(message.response.statusText === "Unauthorized") {
+                localStorage.removeItem('authorizationToken');
+                window.location.href = '/authorization';
+                return;
+            }
+
             if(typeof message.response.data === 'object'){
                 dispatch(fetchErrorMessage(message.response.data));
             } else {

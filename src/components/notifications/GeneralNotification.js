@@ -1,6 +1,6 @@
 import style from './style.module.scss';
 import React from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import cn from 'classnames';
 import MainButton from '../ui/MainButton/MainButton';
 import { showErrorNotification } from '../../store/slices/notification';

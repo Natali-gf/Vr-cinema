@@ -7,7 +7,7 @@ const initialState = {
 	errorNotificationVisible: false,
 }
 
-	export const notificationSlice = createSlice({
+export const notificationSlice = createSlice({
 	name: 'notification',
 	initialState,
 	reducers: {

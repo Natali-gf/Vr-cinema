@@ -7,36 +7,34 @@ const styleProxy = new Proxy({}, {
 	  get: () => () => {}
 });
 
-export default function SingleSelect({className, classError, optionList, selectValue, selectLabel, placeholder, onChange, selectType, value, defaultValue, isDisabled, labelBefore, labelAfter, id,isClearable}) {
-
+export default function SingleSelect(props) {
+	
 	return(
 		<>
-			{labelBefore &&
+			{props.labelBefore &&
 			<label className={cn(style.field__label)}
-				htmlFor={id}>
-					{labelBefore}
+				htmlFor={props.id}>
+					{props.labelBefore}
 			</label>}
 				<Select
 					styles={styleProxy}
-					classNamePrefix={cn(classError ? 'customSelectError' : 'customSelect')}
-					className={cn(className, selectType)}
-					getOptionValue={(option) => `${option[selectValue ?? 'value']}`}
-					getOptionLabel={(option) => `${option[selectLabel ?? 'label']}`}
-					options={optionList}
-					defaultValue={defaultValue}
-					onChange={onChange}
-					value={value}
+					classNamePrefix={cn(props.classError ? 'customSelectError' : 'customSelect')}
+					className={cn(props.className, props.selectType)}
+					getOptionValue={(option) => `${option[props.selectValue ?? 'value']}`}
+					getOptionLabel={(option) => `${option[props.selectLabel ?? 'label']}`}
+					options={props.optionList}
+					defaultValue={props.defaultValue}
+					onChange={props.onChange}
+					value={props.value}
 					hideSelectedOptions={false}
 					isSearchable={false}
-					placeholder={placeholder}
-					isDisabled={isDisabled}
-					isClearable={isClearable}
-					// menuIsOpen={true}
-				/>
-			{labelAfter &&
+					placeholder={props.placeholder}
+					isDisabled={props.isDisabled}
+					isClearable={props.isClearable} />
+			{props.labelAfter &&
 			<label className={cn(style.field__label)}
-				htmlFor={id}>
-					{labelAfter}
+				htmlFor={props.id}>
+					{props.labelAfter}
 			</label>}
 		</>
 	)

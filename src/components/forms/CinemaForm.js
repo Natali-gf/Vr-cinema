@@ -9,44 +9,51 @@ import { useForm } from 'react-hook-form';
 import Checkbox from '../ui/Checkbox/Checkbox';
 import Input from '../ui/Input/Input';
 import { getCurrentCinemaRequest, postCinemaRequest, putCinemaRequest } from '../../store/actions/cinemaAction';
-import { clearCinemaData, fetchError } from '../../store/slices/cinemaSlice';
+import { clearCinemaData, fetchErrorMessage } from '../../store/slices/cinemaSlice';
 import { getTypeCinemaRequest } from '../../store/actions/typeCinemaActions';
 import { showCinemaEdit, showCinemaInfo } from '../../store/slices/windowStateSlice';
 import loadingImg from '../../assets/icons/loading.svg';
 import { getFranchiseeRequest } from '../../store/actions/franchiseeAction';
 import { getCityRequest } from '../../store/actions/cityActions';
 import { BtnEdit } from './BtnEdit';
+import MultiSelect from '../ui/select/MultiSelect';
+import { getFranchiseeFilmRequest } from '../../store/actions/filmActions';
 
 export const cinemaFormFields = ['name', 'address', 'working_days', 'is_active', 'franchisee', 'city',  'type_cinema'];
 
-function CinemaForm({className, modeInfo, cinemaId, buttonName}) {
+function CinemaForm({modeInfo, cinemaId, buttonName}) {
 
 	const dispatch = useDispatch();
 	const { typeCinema } = useSelector(state => state.typeCinema);
 	const { city } = useSelector(state => state.city);
-	const { cinemaData, errorView} = useSelector(state => state.cinema);
+	const { cinemaData, errorView, cinemaFranchiseeId} = useSelector(state => state.cinema);
 	const { franchisee } = useSelector(state => state.franchisee);
+	const { films, loadingPage } = useSelector(state => state.films);
 	const [ loadForm, setLoadForm] = React.useState('');
 	const [ isChanged, setIsChanged ] = React.useState(false);
 
-	const { register, handleSubmit, setValue, setError, formState: {errors, isDirty, isValidating}, watch } = useForm({ mode: 'all' });
-
+	const { register, handleSubmit, setValue, setError,
+		formState: {errors, isDirty, isValidating}, watch } = useForm({ mode: 'all' });
 	const [ nameWatch, addressWatch, workingDaysWatch ] = watch(cinemaFormFields);
 
 	React.useEffect(() => {
 		if(cinemaId){
 			dispatch(getCurrentCinemaRequest(cinemaId));
+			dispatch(getFranchiseeFilmRequest(cinemaFranchiseeId));
 		} else {
 			setLoadForm(true);
 		};
+
 		dispatch(getTypeCinemaRequest());
 		dispatch(getFranchiseeRequest());
 		dispatch(getCityRequest());
+
 		// register fields
 		register('type_cinema', { required: 'Обязательное поле!' });
 		register('city', { required: 'Обязательное поле!' });
 		register('franchisee', { required: 'Обязательное поле!' });
 		register('is_active');
+		register('films');
 
 			return () => {
 				dispatch(clearCinemaData(''));
@@ -62,16 +69,17 @@ function CinemaForm({className, modeInfo, cinemaId, buttonName}) {
 
 	React.useEffect(() =>{
 		if (errorView){
-			dispatch(fetchError(''));
+			dispatch(fetchErrorMessage(''));
 		}
 	}, [isValidating]);
 
 	const onSubmit = (data, e) => {
-		console.log(data)
-		e.preventDefault()
+		e.preventDefault();
+
 		if(cinemaId){
 			putCinemaRequest(dispatch, data, cinemaId);
 		} else {
+			data.films = [];
 			postCinemaRequest(dispatch, data);
 		}
 	}
@@ -148,7 +156,7 @@ function CinemaForm({className, modeInfo, cinemaId, buttonName}) {
 						<SingleSelect className={cn(s.form__select)}
 							classError={errors.franchisee && errors.franchisee.type}
 							optionList={franchisee}
-							defaultValue={() => cinemaId ? getIndexCheckedItems(franchisee, [cinemaData.franchisee]).map(i => franchisee[i]) : null}
+							defaultValue={() => cinemaId ? getIndexCheckedItems(franchisee, [cinemaData.franchisee.name]).map(i => franchisee[i]) : null}
 							selectValue={'id'} selectLabel={'name'}
 							placeholder={'Выберите...'} labelBefore={'Франчайзи'}
 							onChange={(e) => {
@@ -199,6 +207,32 @@ function CinemaForm({className, modeInfo, cinemaId, buttonName}) {
 								errorView.working_days : errors.working_days.message}
 						</div>}
 					</div>
+	{/* cinema films */}
+					{cinemaId && !loadingPage &&
+					<div className={s.form__franchiseeField}>
+						<MultiSelect className={cn(s.form__select)}
+							classError={errors.films && errors.films.type}
+							optionList={films}
+							selectValue={'id'} selectLabel={'name'}
+							labelBefore={'Фильмы'} placeholder={'Выберите...'}
+							defaultValue={() => cinemaId ?
+								getIndexCheckedItems(films, cinemaData.films, 'name').map(i => films[i]) : null}
+							isDisabled={modeInfo}
+							onChange={(e) => {
+								let films=[];
+								if (e.length) {
+									e.map(elem => films.push(elem.name));
+								}
+								setValue('films', films);
+								setIsChanged(true);
+							}}
+							selectType={'selectCheckbox'} />
+						{(errors.films || errorView.films) &&
+							<div className={s.form__error_message}>
+								{!errors.films ?
+									errorView.films : errors.films.message}
+							</div>}
+					</div>}
 	{/* description */}
 					{/* <div className={s.form__cinemaField}>
 						<Input classError={errors.description}

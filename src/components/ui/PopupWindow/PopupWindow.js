@@ -1,16 +1,15 @@
 import s from './style.module.scss';
 import cn from 'classnames';
 import { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 
 export default function PopupWindow({className, children, showPopupWindow}) {
 	const dispatch = useDispatch();
 
 	useEffect(() => {
-
-			return () => {
-				dispatch(showPopupWindow(false))
-			}
+		return () => {
+			dispatch(showPopupWindow(false))
+		}
 	}, []);
 
 	return (

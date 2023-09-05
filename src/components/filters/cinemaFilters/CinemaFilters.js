@@ -25,7 +25,6 @@ export default function CinemaFilters({className, setClearFilter}) {
 				</ul>
 				<CinemaFilterButton className={style.options__button} />
 			</div>
-
 		</div>
 	);
 }

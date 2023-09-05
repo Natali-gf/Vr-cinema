@@ -1,0 +1,53 @@
+@import '../../styles/variables';
+
+.content {
+	position: relative;
+	@include width-height(100%, 100vh);
+	overflow-y: scroll;
+	display: grid;
+	grid-template-columns: 1fr 1fr 1fr;
+	grid-template-rows: fit-content(200px);
+	gap: 20px;
+	align-items: stretch;
+	padding: 20px;
+	&__title {
+		@include textStyle(subtitle1, $iconDark);
+		margin-left: 30px;
+	}
+	&__form {
+		margin: 10px;
+	}
+	&__settings {
+		align-items: stretch;
+		@include flex-grid(flex, column, null, null);
+	}
+	@media (max-width: 1465px) {
+		grid-template-columns: 1fr 1fr;
+		grid-template-rows: fit-content(200px) fit-content(200px);
+	}
+	@media (max-width: 1065px) {
+		grid-template-columns: 1fr;
+		grid-template-rows: fit-content(200px) fit-content(200px) fit-content(200px);
+	}
+}
+
+.form {
+	max-width: 500px;
+	flex: 1 1 auto;
+	@include flex-grid(flex, column, flex-start, flex-start);
+	gap: 15px;
+	padding: 30px;
+	background-color: $fillWhite;
+	border-radius: 16px;
+	box-shadow: $shadowSidebar;
+	&__input {
+		min-width: 300px;
+	}
+	&__button {
+		padding: 12px 24px;
+		align-self: flex-end;
+	}
+	&__error {
+		margin-top: -15px;
+	}
+}

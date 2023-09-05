@@ -31,12 +31,22 @@ const filterParams = {
 	clearAllFilter: clearAllFilter,
 }
 
-function FilmCatalog() {
-	const { filmAddWindow, filmEditWindow, filmInfoWindow } = useSelector(state => state.statePopupWindow);
+function FilmCatalog({hideAddButton, whichFilms, currentId, title, subtitle}) {
+	const dispatch = useDispatch();
 	const { filmId } = useSelector(state => state.films);
 	const filterFilm = useSelector(state => state.filter);
-	const { notificationText, notificationVisible, errorNotificationText, errorNotificationVisible } = useSelector(state => state.notification);
-	const dispatch = useDispatch();
+	const {
+		filmAddWindow,
+		filmEditWindow,
+		filmInfoWindow
+	} = useSelector(state => state.statePopupWindow);
+	const {
+		notificationText,
+		notificationVisible,
+		errorNotificationText,
+		errorNotificationVisible
+	} = useSelector(state => state.notification);
+
 	filterParams.filterState = filterFilm;
 
 	return (
@@ -44,14 +54,15 @@ function FilmCatalog() {
 			<div className={style.content}>
 				<div className={style.content__container}>
 					<Header className={style.content__header}
-						title={'Каталог фильмов'} />
+						title={title || 'Каталог фильмов'}
+						subtitle={subtitle} />
 					<div className={style.content__filterPanel}>
 						<FilterPanel className={style.content__filters}
 							buttonAdd={buttonAdd}
 							filterParams={filterParams} />
-						<MainButton className={cn(style.content__addButton, 'icon_add')}
+						{!hideAddButton && <MainButton className={cn(style.content__addButton, 'icon_add')}
 							children={buttonAdd}
-							onClick={() => {dispatch(showFilmAdd(!filmAddWindow))}}/>
+							onClick={() => {dispatch(showFilmAdd(!filmAddWindow))}}/>}
 						{filterFilm.filterVisible &&
 							<FilterOptions className={style.content__options}>
 								<FilmFilters />
@@ -59,7 +70,7 @@ function FilmCatalog() {
 					</div>
 					<div className={style.content__tableBlock}
 							style={filterFilm.filterVisible ? {height: 'calc(100vh - 409px)'}:{height: 'calc(100vh - 211px)'}}>
-						<FilmsTable />
+						<FilmsTable whichFilms={whichFilms || 'all'} />
 					</div>
 					{filmAddWindow &&
 						<PopupWindow className={style.content__addWindow}
@@ -82,7 +93,6 @@ function FilmCatalog() {
 										filmId={filmId}
 										modeInfo={true}/>}/>}
 					<ActionNotification children={notificationText} isVisible={notificationVisible} />
-					{/* <GeneralNotification children={errorNotificationText} isVisible={errorNotificationVisible}/> */}
 				</div>
 			</div>
 			<GeneralNotification children={errorNotificationText} isVisible={errorNotificationVisible}/>

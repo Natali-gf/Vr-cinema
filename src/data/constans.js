@@ -9,13 +9,19 @@ export const age = [
 	{ value: '18+', label: '18+' }
 ];
 
-export const sortBy = [
+export const franchiseeType = [
+	{ value: 'OOO', label: 'OOO' },
+	{ value: 'ИП', label: 'ИП' },
+	{ value: 'Физ.лицо', label: 'Физ.лицо' },
+	{ value: 'Другое', label: 'Другое' },
+];
+
+export const filmSortBy = [
 	{name: 'Алфавиту'},
 	{name: 'Дате добавления'},
 	{name: 'Году создания'},
 	{name: 'Времени'}
 ];
-export const sortData = ['Алфавиту', 'Дате добавления', 'Году создания', 'Времени'];
 export const cinemaSortBy = [
 	{name: 'Названию'},
 	{name: 'Франчайзи'},
@@ -23,25 +29,4 @@ export const cinemaSortBy = [
 export const franchiseeSortBy = [
 	{name: 'Наименованию'},
 	{name: 'Логину'},
-];
-// export const cinemaType = [
-// 	{ value: 'family', label: 'Семейный' },
-// 	{ value: 'flagman', label: 'Флагман' },
-// 	{ value: 'light', label: 'Лайт' },
-// 	{ value: 'vip', label: 'VIP' },
-// 	{ value: 'multiplex', label: 'Мультиплекс' },
-// 	{ value: 'arthouse', label: 'Арт-хаус' },
-// 	{ value: 'family', label: 'Семейный' },
-// 	{ value: 'flagman', label: 'Флагман' },
-// 	{ value: 'light', label: 'Лайт' },
-// 	{ value: 'vip', label: 'VIP' },
-// 	{ value: 'multiplex', label: 'Мультиплекс' },
-// 	{ value: 'arthouse', label: 'Арт-хаус' },
-// ];
-
-export const franchiseeType = [
-	{ value: 'OOO', label: 'OOO' },
-	{ value: 'ИП', label: 'ИП' },
-	{ value: 'Физ.лицо', label: 'Физ.лицо' },
-	{ value: 'Другое', label: 'Другое' },
 ];

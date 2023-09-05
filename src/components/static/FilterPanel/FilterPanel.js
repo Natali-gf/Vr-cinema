@@ -1,16 +1,16 @@
 import style from './style.module.scss';
 import FilterButton from '../../ui/FilterButton/FilterButton';
-import React, { useState, useRef } from 'react';
+import React, { useState } from 'react';
 import cn from 'classnames';
-import { useSelector, useDispatch } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import FilmSort from '../../filters/filmFilters/Sort';
 import CinemaSort from '../../filters/cinemaFilters/Sort';
 import FranchiseeSort from '../../filters/franchiseeFilters/Sort';
 
-function FilterPanel({className, buttonAdd, filterParams}) {
+function FilterPanel({className, filterParams}) {
 	const dispatch = useDispatch();
 	const [sortListVisible, setSortListVisible] = useState(false);
-// console.log(filterParams)
+
 	//style
 	const classActiveSort = cn(filterParams.filterState.activeSort ? style.sort_active : '');
 	const rotateArrow = cn(sortListVisible ? 'icon_arrow_down' : 'icon_arrow_down_after');

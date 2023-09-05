@@ -4,7 +4,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { currentFilter, clearCurrentFilter, setFilterVisible, setActiveFilter, showClearBtnFilter } from '../../../store/slices/filterCinema';
 import MainButton from '../../ui/MainButton/MainButton';
 
-export default function CinemaFilterButton({className}) {
+export default function CinemaFilterButton() {
 	//filters states (redux)
 	const {	city, owner, typeCinema, filtered } = useSelector(state => state.filterCinema);
 	const {	cinema } = useSelector(state => state.cinema);

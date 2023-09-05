@@ -11,12 +11,12 @@ export default function FilterCity({className}) {
 
 	// getting TypeCinema from backend
 	useEffect(() => {
-		dispatch(getCityRequest())
+		dispatch(getCityRequest());
 	}, []);
 
 	// select filter or remove it. then write down the state
 	function handleChange(e) {
-		dispatch(selectCity(e))
+		dispatch(selectCity(e));
 	}
 
 	return(

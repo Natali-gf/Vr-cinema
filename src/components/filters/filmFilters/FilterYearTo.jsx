@@ -11,11 +11,12 @@ export default function FilterYearTo ({className}) {
 	const [ years, setYears] = useState('');
 
 	useEffect(() => {
-		setYears(getYears(currentYear, yearFrom, ''))
+		setYears(getYears(currentYear, yearFrom, ''));
 	}, [yearFrom, yearTo]);
+	
 	// select filter or remove it. then write down the state
 	function handleChange(e) {
-		dispatch(selectYearTo(e))
+		dispatch(selectYearTo(e));
 	}
 
 	return(

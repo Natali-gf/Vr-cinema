@@ -110,14 +110,15 @@
 		flex-direction: column;
 	}
 	&__franchiseeFields, &__franchiseeFields_additional {
-		// max-width: 500px;
 		display: grid;
 		gap: 24px;
 	}
 	&__franchiseeFields {
 		height: fit-content;
+		margin-bottom: 5px;
 	}
 	&__franchiseeField {
+		max-width: 510px;
 		display: flex;
 		flex-direction: column;
 	}

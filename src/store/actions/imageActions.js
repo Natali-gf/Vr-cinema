@@ -6,11 +6,17 @@ import { showErrorNotification } from "../slices/notification";
 export async function postImageRequest (dispatch, data) {
 	const result = await apiUploadFile.post(`/imagine/`, data)
 		.then((response) => {
-			console.log('response', response);
+			// console.log('response', response);
 			return response.data;
 		})
 		.catch((message) => {
 			console.log('error', message);
+            if(message.response.statusText === "Unauthorized") {
+                localStorage.removeItem('authorizationToken');
+                window.location.href = '/authorization';
+                return;
+            }
+
 			dispatch(fetchError(message.message));
 			dispatch(showErrorNotification(true));
 		})
@@ -20,11 +26,17 @@ export async function postImageRequest (dispatch, data) {
 export async function putImageRequest (dispatch, data, imageId) {
 	const result = await apiUploadFile.put(`/imagine/${imageId}/`, data)
 		.then((response) => {
-			console.log('response', response);
+			// console.log('response', response);
 			return response.data;
 		})
 		.catch((message) => {
 			console.log('error', message);
+            if(message.response.statusText === "Unauthorized") {
+                localStorage.removeItem('authorizationToken');
+                window.location.href = '/authorization';
+                return;
+            }
+
 			dispatch(fetchError(message.message));
 			dispatch(showErrorNotification(true));
 		})
@@ -34,11 +46,17 @@ export async function putImageRequest (dispatch, data, imageId) {
 export async function deleteImageRequest (imageId) {
 	const result = await api.delete(`/imagine/${imageId}/`)
 		.then((response) => {
-			console.log('response', response);
+			// console.log('response', response);
 			return response.data;
 		})
 		.catch((message) => {
 			console.log('error', message);
+            if(message.response.statusText === "Unauthorized") {
+                localStorage.removeItem('authorizationToken');
+                window.location.href = '/authorization';
+                return;
+            }
+
 		})
 	return result;
 }

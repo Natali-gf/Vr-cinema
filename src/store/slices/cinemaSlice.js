@@ -7,6 +7,7 @@ const initialState = {
     errorView: '',
     cinema: [],
     cinemaId: '',
+    cinemaFranchiseeId: '',
     cinemaData: [],
 }
 
@@ -37,9 +38,11 @@ export const cinemaSlice = createSlice({
         fetchCurrentCinemaSuccess: (state, action) => {
             state.loadingWindow = false;
             state.cinemaData = action.payload;
+            state.cinemaData.franchisee = action.payload.franchisee.name;
         },
         setCinemaId: (state, action) => {
-            state.cinemaId = action.payload;
+            state.cinemaId = action.payload.id;
+            state.cinemaFranchiseeId = action.payload.franchisee.id;
         },
         clearCinemaData: (state) => {
             state.cinemaData = '';

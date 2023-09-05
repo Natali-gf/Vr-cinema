@@ -2,43 +2,42 @@ import './select-style.scss';
 import style from '../Input/style.module.scss';
 import Select from 'react-select'
 import cn from 'classnames';
-import React, { useRef } from 'react';
+import React from 'react';
 
 const styleProxy = new Proxy({}, {
 	  get: () => () => {}
 });
 
-export default function MultiSelect({className, classError, optionList, selectValue, selectLabel, placeholder, onChange, selectType, value, defaultValue, isDisabled, labelBefore, labelAfter, id}) {
+export default function MultiSelect(props) {
 
 	return(
 		<>
-			{labelBefore &&
+			{props.labelBefore &&
 			<label className={cn(style.field__label)}
-				htmlFor={id}>
-					{labelBefore}
+				htmlFor={props.id}>
+					{props.labelBefore}
 			</label>}
 				<Select
 					styles={styleProxy}
-					classNamePrefix={cn(classError ? 'customSelectError' : 'customSelect')}
-					className={cn(selectType, className)}
+					classNamePrefix={cn(props.classError ? 'customSelectError' : 'customSelect')}
+					className={cn(props.selectType, props.className)}
 					isMulti
-					getOptionValue={(option) => `${option[selectValue]}`}
-					getOptionLabel={(option) => `${option[selectLabel]}`}
-					options={optionList}
-					defaultValue={defaultValue}
-					onChange={onChange}
-					value={value}
+					getOptionValue={(option) => `${option[props.selectValue]}`}
+					getOptionLabel={(option) => `${option[props.selectLabel]}`}
+					options={props.optionList}
+					noOptionsMessage={() => props.noOptionsMessage || 'Упс! Пусто...'}
+					defaultValue={props.defaultValue}
+					onChange={props.onChange}
+					value={props.value}
 					hideSelectedOptions={false}
 					isSearchable={false}
-					placeholder={placeholder}
-					isDisabled={isDisabled}
-					id={id}
-					// menuIsOpen={true}
-				/>
-			{labelAfter &&
+					placeholder={props.placeholder}
+					isDisabled={props.isDisabled}
+					id={props.id} />
+			{props.labelAfter &&
 			<label className={cn(style.field__label)}
-				htmlFor={id}>
-					{labelAfter}
+				htmlFor={props.id}>
+					{props.labelAfter}
 			</label>}
 		</>
 	)

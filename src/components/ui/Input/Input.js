@@ -5,22 +5,22 @@ import React from 'react';
 import { PatternFormat } from 'react-number-format';
 
 
-export default function Input ({className, classError, name, labelBefore, labelAfter, nameField, autoComplete, placeholder, defaultValue, isDisabled, register, validation, onChange, setValue, watch, format, patternChar, mask, onValueChange, type, onKeyDown, pattern}) {
-	const [inputValue, setInputValue] = React.useState(defaultValue || '');
-	const [typeInput, setTypeInput] = React.useState(type)
+export default function Input (props) {
+	const [inputValue, setInputValue] = React.useState(props.defaultValue || '');
+	const [typeInput, setTypeInput] = React.useState(props.type)
 	const inputRef = React.useRef();
 	let idNumber = Math.random();
-
+	
 	const handleChange = (e) => {
 		e.preventDefault();
 		if(e.target.name === 'clearButton'){
-			if(setValue){
-				setValue(nameField, '');
+			if(props.setValue){
+				props.setValue(props.nameField, '');
 			} else {
 				setInputValue('');
 			}
 		} else {
-			if(type === 'number'){
+			if(props.type === 'number'){
 				setInputValue(e.target.value.replace(/\D/g, ""))
 			} else {
 				setInputValue(e.target.value)
@@ -35,57 +35,60 @@ export default function Input ({className, classError, name, labelBefore, labelA
 	}
 
     return (
-        <div className={cn(style.field, className)}>
-			{labelBefore &&
+        <div className={cn(style.field, props.className)}>
+			{props.labelBefore &&
 			<label className={cn(style.field__label)}
 				htmlFor={`input${idNumber}`}>
-					{labelBefore}
+					{props.labelBefore}
 			</label>}
-				<div className={cn(style.field__box, {[style.field__box_error]: classError})}>
-					{!format &&
+				<div className={cn(style.field__box, {[style.field__box_error]: props.classError})}>
+					{!props.format &&
 						<input className={style.field__input}
 							id={`input${idNumber}`}
+							tabIndex={props.tabIndex}
 							type={typeInput || 'text'}
-							name={nameField || name}
-							placeholder={placeholder}
-							autoComplete={autoComplete || 'off'}
-							disabled={isDisabled}
-							onChange={onChange || handleChange}
-							onKeyDown={onKeyDown}
-							pattern={pattern}
-							{...(nameField ? {} : {value: inputValue})}
-							defaultValue={defaultValue}
-							// {...(nameField ? {defaultValue: defaultValue} : {})}
-							{...(nameField ? {} : {ref: inputRef})}
-							{...register ? {...register(nameField, validation)} : ''}
-							/>}
-					{format &&
+							accept={props.accept}
+							name={props.nameField || props.name}
+							placeholder={props.placeholder}
+							autoComplete={props.autoComplete || 'off'}
+							disabled={props.isDisabled}
+							onChange={props.onChange || handleChange}
+							onKeyDown={props.onKeyDown}
+							pattern={props.pattern}
+							{...(props.nameField ? {} : {value: inputValue})}
+							defaultValue={props.defaultValue}
+							// {...(props.nameField ? {props.defaultValue: props.defaultValue} : {})}
+							{...(props.nameField ? {} : {ref: inputRef})}
+							{...props.register ? {...props.register(props.nameField, props.validation)} : ''} />}
+					{props.format &&
 						<PatternFormat className={style.field__input}
-							autoComplete={autoComplete || 'off'}
-							placeholder={placeholder}
-								format={format}
-								patternChar={patternChar}
-								mask={mask}
-								value={watch}
-								onValueChange={onValueChange}
-								defaultValue={defaultValue}
-								disabled={isDisabled} />}
+							autoComplete={props.autoComplete || 'off'}
+							placeholder={props.placeholder}
+								format={props.format}
+								patternChar={props.patternChar}
+								mask={props.mask}
+								value={props.watch}
+								onValueChange={props.onValueChange}
+								defaultValue={props.defaultValue}
+								disabled={props.isDisabled} />}
 
-					{(watch || inputValue) && !isDisabled && type !== 'password' &&
+					{(props.watch || inputValue) && !props.isDisabled && props.type !== 'password' &&
 						<button className={cn(style.field__clearButton, 'icon_close')}
 							name={'clearButton'}
+							type={'button'}
 							onClick={handleChange} />}
-						{type === 'password' &&
+						{props.type === 'password' &&
 							<button className={cn(style.field__password, 'icon_eye_password', {[style.field__password_show]: typeInput === 'text'} )}
+								type={'button'}
 								onClick={showPassword} >
 								<img src="" alt="" />
 							</button>
 						}
 				</div>
-			{labelAfter &&
+			{props.labelAfter &&
 			<label className={cn(style.field__label)}
 				htmlFor={`input${idNumber}`}>
-					{labelAfter}
+					{props.labelAfter}
 			</label>}
         </div>
     )

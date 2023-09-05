@@ -33,11 +33,21 @@ const filterParams = {
 }
 
 function CinemaCatalog() {
-	const { cinemaAddWindow, cinemaEditWindow, cinemaInfoWindow } = useSelector(state => state.statePopupWindow);
+	const dispatch = useDispatch();
 	const { cinemaId } = useSelector(state => state.cinema);
 	const filterCinema = useSelector(state => state.filterCinema);
-	const { notificationText, notificationVisible, errorNotificationText, errorNotificationVisible } = useSelector(state => state.notification);
-	const dispatch = useDispatch();
+	const {
+		cinemaAddWindow,
+		cinemaEditWindow,
+		cinemaInfoWindow
+	} = useSelector(state => state.statePopupWindow);
+	const {
+		notificationText,
+		notificationVisible,
+		errorNotificationText,
+		errorNotificationVisible
+	} = useSelector(state => state.notification);
+
 	filterParams.filterState = filterCinema;
 
 	return (
@@ -82,7 +92,6 @@ function CinemaCatalog() {
 										cinemaId={cinemaId}
 										modeInfo={true}/>}/>}
 					<ActionNotification children={notificationText} isVisible={notificationVisible} />
-					{/* <GeneralNotification children={errorNotificationText} isVisible={errorNotificationVisible}/> */}
 				</div>
 			</div>
 			<GeneralNotification children={errorNotificationText} isVisible={errorNotificationVisible}/>

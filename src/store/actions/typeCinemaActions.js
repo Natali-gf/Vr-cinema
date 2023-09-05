@@ -11,6 +11,12 @@ export const getTypeCinemaRequest = () => {
             dispatch(fetchSuccess( response.data.sort(sortByName) ))
         } catch (message) {
             console.log('error', message);
+            if(message.response.statusText === "Unauthorized") {
+                localStorage.removeItem('authorizationToken');
+                window.location.href = '/authorization';
+                return;
+            }
+
             dispatch(fetchError(message.message));
             dispatch(showErrorNotification(true));
         }
@@ -21,7 +27,7 @@ export async function postTypeCinemaRequest (dispatch, data) {
     dispatch(fetching());
     const result = await api.post(`/type_cinema/`, JSON.stringify(data))
         .then((response) => {
-            console.log(response);
+            // console.log(response);
             dispatch(getTypeCinemaRequest());
             dispatch(showNotification(true));
 			dispatch(setNotificationText('Тип кинотеатра добавлен'));
@@ -32,6 +38,12 @@ export async function postTypeCinemaRequest (dispatch, data) {
         })
         .catch((message) => {
             console.log('error', message);
+            if(message.response.statusText === "Unauthorized") {
+                localStorage.removeItem('authorizationToken');
+                window.location.href = '/authorization';
+                return;
+            }
+
             if(typeof message.response.data === 'object'){
                 dispatch(fetchErrorMessage(message.response.data));
             } else {
@@ -46,7 +58,7 @@ export async function putTypeCinemaRequest (dispatch, data, typeCinemaId) {
     dispatch(fetching());
     const result = await api.put(`/type_cinema/${typeCinemaId}/`, JSON.stringify(data))
         .then((response) => {
-            console.log(response);
+            // console.log(response);
             dispatch(getTypeCinemaRequest());
             dispatch(showNotification(true));
 			dispatch(setNotificationText('Изменения сохранены'))
@@ -57,6 +69,12 @@ export async function putTypeCinemaRequest (dispatch, data, typeCinemaId) {
         })
         .catch((message) => {
             console.log('error', message);
+            if(message.response.statusText === "Unauthorized") {
+                localStorage.removeItem('authorizationToken');
+                window.location.href = '/authorization';
+                return;
+            }
+
             if(typeof message.response.data === 'object'){
                 dispatch(fetchErrorMessage(message.response.data));
             } else {
@@ -71,7 +89,7 @@ export async function deleteTypeCinemaRequest (dispatch, typeCinemaId) {
     dispatch(fetching());
     const result = await api.delete(`/type_cinema/${typeCinemaId}/`)
         .then((response) => {
-            console.log(response);
+            // console.log(response);
             dispatch(getTypeCinemaRequest());
             dispatch(showNotification(true));
 			dispatch(setNotificationText('Тип кинотеатра удалён'))
@@ -82,6 +100,12 @@ export async function deleteTypeCinemaRequest (dispatch, typeCinemaId) {
         })
         .catch((message) => {
             console.log('error', message);
+            if(message.response.statusText === "Unauthorized") {
+                localStorage.removeItem('authorizationToken');
+                window.location.href = '/authorization';
+                return;
+            }
+
             if(typeof message.response.data === 'object'){
                 dispatch(fetchErrorMessage(message.response.data));
             } else {

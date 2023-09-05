@@ -1,7 +1,4 @@
 import { useDispatch, useSelector } from 'react-redux';
-import { selectGenre } from '../../../store/slices/filterFilm';
-import { categories } from '../../../store/slices/categorySlice';
-import { getCategoryRequest } from '../../../store/actions/categoryActions';
 import { useEffect } from 'react';
 import MultiSelect from '../../ui/select/MultiSelect';
 import { getTypeCinemaRequest } from '../../../store/actions/typeCinemaActions';
@@ -14,14 +11,14 @@ export default function FilterTypeCinema({className}) {
 
 	// getting TypeCinema from backend
 	useEffect(() => {
-		dispatch(getTypeCinemaRequest())
+		dispatch(getTypeCinemaRequest());
 	}, []);
 
 	// select filter or remove it. then write down the state
 	function handleChange(e) {
-		dispatch(selectTypeCinema(e))
+		dispatch(selectTypeCinema(e));
 	}
-	
+
 	return(
 		<MultiSelect className={className}
 			optionList={typeCinema}

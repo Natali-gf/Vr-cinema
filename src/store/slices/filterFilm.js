@@ -18,7 +18,7 @@ const initialState = {
 	clearBtnSort: false,
 }
 
-	export const filterSlice = createSlice({
+export const filterSlice = createSlice({
 	name: 'filter',
 	initialState,
 	reducers: {
@@ -85,6 +85,7 @@ const initialState = {
 export const { selectGenre, selectStudio, selectYearFrom, selectYearTo, selectLang,
 			currentFilter, clearCurrentFilter, clearAllFilter,
 			selectSort, currentSort, resetAllButton,
-			setFilterVisible, setActiveFilter, showClearBtnFilter, setDescSort, setActiveSort, showClearBtnSort } = filterSlice.actions
+			setFilterVisible, setActiveFilter, showClearBtnFilter,
+			setDescSort, setActiveSort, showClearBtnSort } = filterSlice.actions
 
 export default filterSlice.reducer

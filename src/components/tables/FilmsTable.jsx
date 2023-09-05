@@ -4,8 +4,7 @@ import unpublished from '../../assets/icons/unpublished.svg';
 import loadingImg from '../../assets/icons/loading.svg';
 import noPoster from '../../assets/images/no_poster.png';
 import DetailMenu from '../DetailMenu/DetailMenu';
-import { selectAllFilms } from '../../store/slices/filmSlice';
-import { getFilmRequest } from '../../store/actions/filmActions';
+import { getCinemaFilmRequest, getFilmRequest, getFranchiseeFilmRequest } from '../../store/actions/filmActions';
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import cn from 'classnames';
@@ -13,14 +12,27 @@ import { setSearchValue } from '../../store/slices/searchSlice';
 
 const tableHeaders = ['', 'Постер', 'Название', 'Жанр', 'Студия', 'Время', 'Озвучка', 'Цензор', 'Год', 'Публикация', '']
 
-function FilmsTable({className}) {
+function FilmsTable({whichFilms}) {
 	const dispatch = useDispatch()
-	const {films, loadingPage, loadingWindow} = useSelector(state => state.films);
+	const { films, loadingPage, loadingWindow } = useSelector(state => state.films);
 	const { searchValue } = useSelector(state => state.search)
-	const {	filtered, sorted, filterVisible } = useSelector(state => state.filter);
+	const filter = useSelector(state => state.filter);
+
 	let customFilms = films;
+
 	useEffect(() => {
-		dispatch(getFilmRequest());
+		switch (whichFilms) {
+			case 'all':
+				dispatch(getFilmRequest(filter));
+				break;
+			case 'cinema':
+				dispatch(getCinemaFilmRequest(localStorage.cinemaId, filter));
+				break;
+			case 'franchisee':
+				dispatch(getFranchiseeFilmRequest(localStorage.franchiseeId, filter));
+				break;
+		}
+
 		return () => {
 			dispatch(setSearchValue(''))
 		}
@@ -28,12 +40,12 @@ function FilmsTable({className}) {
 
 	// check filters
 	(function(){
-		if(filtered != 'initialState'){
-				if (sorted != 'initialState')
-					{customFilms = sorted.filter((sort) => filtered.some((filter) => filter ===sort)) }
-				else { customFilms = filtered }}
-		else if(sorted != 'initialState')
-				{ customFilms = sorted }
+		if(filter.filtered != 'initialState'){
+				if (filter.sorted != 'initialState')
+					{customFilms = filter.sorted.filter((sort) => filter.filtered.some((filter) => filter ===sort)) }
+				else { customFilms = filter.filtered }}
+		else if(filter.sorted != 'initialState')
+				{ customFilms = filter.sorted }
 	}());
 
 	return (
@@ -48,9 +60,9 @@ function FilmsTable({className}) {
 					</tr>
 				</thead>
 				{!loadingPage && <tbody className={cn(style.table__body)}
-					style={filterVisible ? {height: 'calc(100vh - 477px)'}:{height: 'calc(100vh - 279px)'}}>
+					style={filter.filterVisible ? {height: 'calc(100vh - 477px)'}:{height: 'calc(100vh - 279px)'}}>
 					{customFilms
-						.filter( item => (item.name.toLowerCase()).includes(searchValue.toLowerCase()))
+						.filter( item => (item.name?.toLowerCase()).includes(searchValue.toLowerCase()))
 							.map( (item, index) => (
 					<tr className={cn(style.table__row, style.table__films)} key={index + Math.random()}>
 						<td className={style.table__column}/>
@@ -93,7 +105,8 @@ function FilmsTable({className}) {
 							<DetailMenu className={style.table__menu}
 								isPublished={item.is_published}
 								elemId={item.id}
-								typeDetail={'film'}/>
+								typeDetail={'film'}
+								whichFilms={whichFilms}/>
 						</td>
 					</tr>))}
 				</tbody>}

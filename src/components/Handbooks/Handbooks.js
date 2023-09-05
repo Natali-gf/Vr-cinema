@@ -1,9 +1,9 @@
 import React from 'react';
-import Handbook from '../Handbook/Handbook';
-import s from './style.module.scss';
 import cn from 'classnames';
-import { franchiseeType, age } from '../../data/constans';
 import { useDispatch, useSelector } from 'react-redux';
+import s from './style.module.scss';
+import Handbook from '../Handbook/Handbook';
+import { franchiseeType, age } from '../../data/constans';
 import { deleteCopyrightRequest, getCopyrightRequest, postCopyrightRequest, putCopyrightRequest } from '../../store/actions/copyrightActions';
 import { deleteCategoryRequest, getCategoryRequest, postCategoryRequest, putCategoryRequest } from '../../store/actions/categoryActions';
 import { deleteLanguageRequest, getLanguageRequest, postLanguageRequest, putLanguageRequest } from '../../store/actions/languageActions';
@@ -15,7 +15,7 @@ import { fetchErrorMessage as fetchErrorCategory } from '../../store/slices/cate
 import { fetchErrorMessage as fetchErrorCopyright } from '../../store/slices/copyrightSlice';
 import { fetchErrorMessage as fetchErrorCity } from '../../store/slices/citySlice';
 
-function Handbooks({className, title, list}) {
+function Handbooks({className}) {
 	const dispatch = useDispatch();
 	const { searchValue } = useSelector(state => state.search)
 	const category = useSelector(state => state.category);
@@ -25,13 +25,11 @@ function Handbooks({className, title, list}) {
 	const city = useSelector(state => state.city);
 
 	React.useEffect(() => {
-
 		dispatch(getCategoryRequest());
 		dispatch(getCopyrightRequest());
 		dispatch(getLanguageRequest());
 		dispatch(getTypeCinemaRequest());
 		dispatch(getCityRequest());
-
 	},[])
 
 	const handbooksParams = [
@@ -87,7 +85,7 @@ function Handbooks({className, title, list}) {
 			deleteRequest: deleteCategoryRequest,
 			fetchError: fetchErrorCategory,
 			loading: category.loading,
-		},,
+		},
 		{
 			title: 'Студии',
 			buttonName: 'студию',
@@ -100,7 +98,7 @@ function Handbooks({className, title, list}) {
 			deleteRequest: deleteCopyrightRequest,
 			fetchError: fetchErrorCopyright,
 			loading: copyright.loading,
-		},,
+		},
 		{
 			title: 'Город',
 			buttonName: 'город',
@@ -135,78 +133,6 @@ function Handbooks({className, title, list}) {
 							deleteRequest={item.deleteRequest}
 							loading={item.loading}
 							fetchError={item.fetchError} />))}
-					{/* <Handbook className={s.handbooks__item}
-						title={'Озвучка'}
-						buttonName={'озвучку'}
-						name={'languag'}
-						list={language.language}
-						isDisabledButton={false}
-						errorView={language.errorView}
-						postRequest={postLanguageRequest}
-						putRequest={putLanguageRequest}
-						deleteRequest={deleteLanguageRequest}
-						loading={language.loading}
-						fetchError={fetchErrorLanguage} /> */}
-					{/* <Handbook className={s.handbooks__item}
-						title={'Тип кинотеатра'}
-						buttonName={'тип'}
-						name={'typeCinema'}
-						list={typeCinema.typeCinema}
-						isDisabledButton={false}
-						errorView={typeCinema.errorView}
-						postRequest={postTypeCinemaRequest}
-						putRequest={putTypeCinemaRequest}
-						deleteRequest={deleteTypeCinemaRequest}
-						loading={typeCinema.loading}
-						fetchError={fetchErrorTypeCinema} />
-					<Handbook className={s.handbooks__item}
-						title={'Тип предпринимателя'}
-						buttonName={'тип'}
-						name={'typeFranchisee'}
-						list={franchiseeType}
-						isDisabledButton={true}/>
-					<Handbook className={s.handbooks__item}
-						title={'Цензор'}
-						buttonName={'цензор'}
-						name={'age'}
-						list={age}
-						isDisabledButton={true}/>
-					<Handbook className={s.handbooks__item}
-						title={'Жанры'}
-						buttonName={'жанр'}
-						name={'category'}
-						list={category.category}
-						isDisabledButton={false}
-						errorView={category.errorView}
-						postRequest={postCategoryRequest}
-						putRequest={putCategoryRequest}
-						deleteRequest={deleteCategoryRequest}
-						loading={category.loading}
-						fetchError={fetchErrorCategory} />
-					<Handbook className={s.handbooks__item}
-						title={'Студии'}
-						buttonName={'студию'}
-						name={'language'}
-						list={copyright.copyright}
-						isDisabledButton={false}
-						errorView={copyright.errorView}
-						postRequest={postCopyrightRequest}
-						putRequest={putCopyrightRequest}
-						deleteRequest={deleteCopyrightRequest}
-						loading={copyright.loading}
-						fetchError={fetchErrorCopyright} />
-					<Handbook className={s.handbooks__item}
-						title={'Город'}
-						buttonName={'город'}
-						name={'city'}
-						list={city.city}
-						isDisabledButton={false}
-						errorView={city.errorView}
-						postRequest={postCityRequest}
-						putRequest={putCityRequest}
-						deleteRequest={deleteCityRequest}
-						loading={city.loading}
-						fetchError={fetchErrorCity} /> */}
 				</div>
 			</div>
 		</>

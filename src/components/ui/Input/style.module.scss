@@ -3,7 +3,6 @@
 .field{
 	@include width-height(100%);
 	position: relative;
-	// @include flex-grid(flex, column, null, center);
 	&__clearButton {
 		font-size: 12px;
 		padding: 12px;

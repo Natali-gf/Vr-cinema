@@ -32,11 +32,21 @@ const filterParams = {
 }
 
 function FranchiseeCatalog() {
-	const { franchiseeAddWindow, franchiseeEditWindow, franchiseeInfoWindow } = useSelector(state => state.statePopupWindow);
+	const dispatch = useDispatch();
 	const { franchiseeId } = useSelector(state => state.franchisee);
 	const filterFranchisee = useSelector(state => state.filterFranchisee);
-	const { notificationText, notificationVisible, errorNotificationText, errorNotificationVisible } = useSelector(state => state.notification);
-	const dispatch = useDispatch();
+	const {
+		franchiseeAddWindow,
+		franchiseeEditWindow,
+		franchiseeInfoWindow
+	} = useSelector(state => state.statePopupWindow);
+	const {
+		notificationText,
+		notificationVisible,
+		errorNotificationText,
+		errorNotificationVisible
+	} = useSelector(state => state.notification);
+
 	filterParams.filterState = filterFranchisee;
 
 	return (

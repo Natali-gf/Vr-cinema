@@ -4,9 +4,17 @@
 	@include flex-grid(flex, null, space-between, center);
 	width: 100%;
 	border-bottom: 2px solid $strokeInitial;
-
+	&__titlesBlock {
+		display: flex;
+		align-items: flex-end;
+	}
 	&__title {
 		@include textStyle(title, $textDark);
+		white-space: nowrap;
+		padding-right: 10px;
+	}
+	&__subtitle {
+		@include textStyle(subtitle1, $textGrey);
 		white-space: nowrap;
 		padding-right: 10px;
 	}

@@ -34,5 +34,8 @@
 		width: 24px;
 		height: 24px;
 		margin-right: 16px;
+		&::before{
+			font-size: 22px;
+		}
 	}
 }
